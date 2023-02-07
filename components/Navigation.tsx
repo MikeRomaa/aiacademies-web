@@ -21,11 +21,11 @@ const Navigation: React.FC = () => {
                         Home
                     </a>
                 </Link>
-                <Link href="/courses" passHref>
-                    <a className="hidden lg:block">
-                        Courses
-                    </a>
-                </Link>
+                {/*<Link href="/courses" passHref>*/}
+                {/*    <a className="hidden lg:block">*/}
+                {/*        Courses*/}
+                {/*    </a>*/}
+                {/*</Link>*/}
                 <Link href="/about" passHref>
                     <a className="hidden lg:block">
                         About Us
