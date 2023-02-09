@@ -17,9 +17,9 @@ const Footer: React.FC = () => (
                 <Link href="/" passHref>
                     <a><p>Home</p></a>
                 </Link>
-                {/*<Link href="/courses" passHref>*/}
-                {/*    <a><p>Courses</p></a>*/}
-                {/*</Link>*/}
+                <Link href="/courses" passHref>
+                    <a><p>Courses</p></a>
+                </Link>
                 <Link href="/about" passHref>
                     <a><p>About Us</p></a>
                 </Link>
