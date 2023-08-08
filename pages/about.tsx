@@ -35,10 +35,10 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
-                    <Image src={saketh} alt="Saketh Sundar" layout="fixed" width={700 / 4} height={676 / 4} />
+                    <Image src={nathan} alt="Nathan Zhong" layout="fixed" width={800 / 4} height={676 / 4} />
                 </div>
                 <div>
-                    <h3>Saketh Sundar</h3>
+                    <h3>Nathan Zhong</h3>
                     <p>Saketh Sundar is an incoming freshman at Harvard interested in the intersection of computational sciences with other fields within STEM. He is involved in multiple STEM extracurricular activities at school and holds leadership positions in Science Olympiad, Maryland Technology Honor Society, and AI Club. His research interests are in applying machine learning methods to environmental and medical science problems, and he has pursued these through a variety of different research internships. In his free time, Saketh enjoys watching football and movies.</p>
                 </div>
             </div>
