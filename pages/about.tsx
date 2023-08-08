@@ -4,6 +4,7 @@ import { PageHeader } from '~/components/PageHeader';
 import Image from 'next/image';
 import rayhan from '~/public/img/rayhan.jpg';
 import saketh from '~/public/img/saketh.jpg';
+import nathan from '~/public/img/nathan.jpg';
 
 const About: NextPage = () => (
     <>
@@ -34,7 +35,7 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
-                    <Image src={saketh} alt="Saketh Sundar" layout="fixed" width={598 / 4} height={676 / 4} />
+                    <Image src={nathan} alt="Saketh Sundar" layout="fixed" width={598 / 4} height={676 / 4} />
                 </div>
                 <div>
                     <h3>Saketh Sundar</h3>
