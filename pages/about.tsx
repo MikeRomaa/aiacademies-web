@@ -25,7 +25,7 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
-                    <Image src={saketh} alt="Saketh Sundar" layout="fixed" width={598 / 4} height={676 / 4} />
+                    <Image src={saketh} alt="Saketh Sundar" layout="fixed" width={700 / 4} height={676 / 4} />
                 </div>
                 <div>
                     <h3>Saketh Sundar</h3>
@@ -35,7 +35,7 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
-                    <Image src={nathan} alt="Nathan Zhong" layout="fixed" width={700 / 4} height={676 / 4} />
+                    <Image src={nathan} alt="Nathan Zhong" layout="fixed" width={800 / 4} height={676 / 4} />
                 </div>
                 <div>
                     <h3>Saketh Sundar</h3>
