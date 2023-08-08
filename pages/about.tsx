@@ -38,11 +38,6 @@ const About: NextPage = () => (
             </div>    
         </div>
 
-
-
-
-        
-        <div className="container py-10">
             <h2>Officers</h2>
             <br/>
             <div className="lg:flex gap-10 mb-5">
