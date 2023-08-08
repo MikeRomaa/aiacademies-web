@@ -32,9 +32,6 @@ const About: NextPage = () => (
                     <p>Saketh Sundar is an incoming freshman at Harvard interested in the intersection of computational sciences with other fields within STEM. He is involved in multiple STEM extracurricular activities at school and holds leadership positions in Science Olympiad, Maryland Technology Honor Society, and AI Club. His research interests are in applying machine learning methods to environmental and medical science problems, and he has pursued these through a variety of different research internships. In his free time, Saketh enjoys watching football and movies.</p>
                 </div>
             </div>
-        </div>
-        <div className="container py-11">
-            <br/>
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
