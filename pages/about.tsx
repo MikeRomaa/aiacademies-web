@@ -33,7 +33,6 @@ const About: NextPage = () => (
                 </div>
             </div>       
         </div>
-
         <div className="container py-10">
             <h1>Officers</h1>
             <br/>
