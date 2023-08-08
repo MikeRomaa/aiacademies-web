@@ -4,6 +4,7 @@ import { PageHeader } from '~/components/PageHeader';
 import Image from 'next/image';
 import rayhan from '~/public/img/rayhan.jpg';
 import saketh from '~/public/img/saketh.jpg';
+import nathan from '~/public/img/nathan.jpg';
 const About: NextPage = () => (
     <>
         <PageHeader title="About Us" />
@@ -28,6 +29,16 @@ const About: NextPage = () => (
                 <div>
                     <h3>Saketh Sundar</h3>
                     <p>Saketh Sundar is an incoming freshman at Harvard interested in the intersection of computational sciences with other fields within STEM. He is involved in multiple STEM extracurricular activities at school and holds leadership positions in Science Olympiad, Maryland Technology Honor Society, and AI Club. His research interests are in applying machine learning methods to environmental and medical science problems, and he has pursued these through a variety of different research internships. In his free time, Saketh enjoys watching football and movies.</p>
+                </div>
+            </div>
+            <div className="lg:flex gap-10 mb-5">
+                <div>
+                    <br/>
+                    <Image src={nathan} alt="Nathan Zhong" layout="fixed" width={598 / 4} height={676 / 4} />
+                </div>
+                <div>
+                    <h3>Nathan Zhong, Outreach Director</h3>
+                    <p> Nathan Zhong is a junior at River Hill High School. He is the Co-President of his school's programming club and co-coaches his middle school math team. He enjoys math contests and programming contests and is currently trying to free himself from hardstuck USACO silver and break out of his trend of exponentially decaying AIME scores. Nathan has also participated in a variety of community service events and nonprofits, hoping to utilize his experiences to better promote passion for AI in the community. In his free time, Nathan loves playing basketball and exploring the intersections between AI and public health. </p>
                 </div>
             </div>
         </div>
