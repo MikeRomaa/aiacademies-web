@@ -33,7 +33,7 @@ const About: NextPage = () => (
                 </div>
             </div>
         </div>
-        <div className="container py-10">
+        <div className="container py-11">
             <br/>
             <div className="lg:flex gap-10 mb-5">
                 <div>
