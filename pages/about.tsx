@@ -4,7 +4,7 @@ import { PageHeader } from '~/components/PageHeader';
 import Image from 'next/image';
 import rayhan from '~/public/img/rayhan.jpg';
 import saketh from '~/public/img/saketh.jpg';
-import nathan from '~/public/img/nathan.png';
+import nathan from '~/public/img/nathan.jpg';
 
 const About: NextPage = () => (
     <>
@@ -34,7 +34,21 @@ const About: NextPage = () => (
                 </div>
             </div>
         </div>
-        
+
+        <div className="container py-10">
+             <h2>Officers</h2>
+            <br/>
+            <div className="lg:flex gap-10 mb-5">
+                <div>
+                    <br/>
+                    <Image src={nathan} alt="Nathan Zhong" layout="fixed" width={598 / 4} height={676 / 4} />
+                </div>
+                <div>
+                    <h3>Nathan Zhong, Outreach Director</h3>
+                    <p> Nathan Zhong is a junior at River Hill High School. He is the Co-President of his school's programming club and co-coaches his middle school math team. He enjoys math contests and programming contests and is currently trying to free himself from hardstuck USACO silver and break out of his trend of exponentially decaying AIME scores. Nathan has also participated in a variety of community service events and nonprofits, hoping to utilize his experiences to better promote passion for AI in the community. In his free time, Nathan loves playing basketball and exploring the intersections between AI and public health. </p>
+                </div>
+            </div>
+         </div>   
     </>
 );
 
