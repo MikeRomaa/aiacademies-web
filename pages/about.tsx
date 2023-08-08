@@ -39,7 +39,7 @@ const About: NextPage = () => (
                 </div>
                 <div>
                     <h3>Nathan Zhong, Outreach Director</h3>
-                    <p>Nathan Zhong is a junior at River Hill High School. He is the Co-President of his school&apos;s programming club and co-coaches his middle school math team. He enjoys math contests and programming contests and is currently trying to free himself from hardstuck USACO silver and break out of his trend of exponentially decaying AIME scores. Nathan has also participated in a variety of community service events and nonprofits, hoping to utilize his experiences to better promote passion for AI in the community. In his free time, Nathan loves playing basketball and exploring the intersections between AI and public health.</p>
+                    <p>Nathan Zhong is a rising senior at River Hill High School. He is the Co-President of his school&apos;s programming club and co-coaches his middle school math team. Nathan has also participated in a variety of community service events and nonprofits, hoping to utilize his experiences to better promote passion for AI in the community. In his free time, Nathan loves playing basketball and exploring the intersections between AI and public health.</p>
                 </div>
             </div> 
         </div>
