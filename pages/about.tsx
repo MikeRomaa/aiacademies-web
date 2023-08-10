@@ -2,7 +2,7 @@ import React from 'react';
 import { NextPage } from 'next';
 import { PageHeader } from '~/components/PageHeader';
 import Image from 'next/image';
-import rayhan from '~/public/img/rayhan.jpg';
+import rayhan from '~/public/img/good_picture_rayhan.jpg';
 import saketh from '~/public/img/saketh.jpg';
 import nathan from '~/public/img/nathan.jpg';
 
