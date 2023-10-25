@@ -43,7 +43,7 @@ const About: NextPage = () => (
                     <p>William Zhong is a senior at River Hill High School. He is co-president of his school&apos;s AI/Machine Learning club and qualified for AIME twice. His interests involve applying machine learning to understand more about our world and improve society through health care and astronomy which he has pursued through various research internships. In his free time, William enjoys watching soccer, drawing, and expanding his LEGO Speed Champions collection.</p>
                 </div>
             </div>
-                        <div className="lg:flex gap-10 mb-5">
+            <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
                     <Image src={nathan} alt="Nathan Zhong" layout="fixed" width={800 / 4} height={676 / 4} />
