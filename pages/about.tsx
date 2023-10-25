@@ -5,6 +5,7 @@ import Image from 'next/image';
 import rayhan from '~/public/img/good_picture_rayhan.jpg';
 import saketh from '~/public/img/saketh.jpg';
 import nathan from '~/public/img/nathan.jpg';
+import william from '~/public/img/william.JPG';
 
 const About: NextPage = () => (
     <>
@@ -35,11 +36,21 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
+                    <Image src={william} alt="William Zhong" layout="fixed" width={820 / 4} height={770 / 4} />
+                </div>
+                <div>
+                    <h3>William Zhong, Chief Operating Officer</h3>
+                    <p>William Zhong is a senior at River Hill High School. He is co-president of his school's AI/Machine Learning club and qualified for AIME twice. His interests involve applying machine learning to understand more about our world and improve society through health care and astronomy which he has pursued through various research internships. In his free time, William enjoys watching soccer, drawing, and expanding his LEGO Speed Champions collection.</p>
+                </div>
+            </div>
+                        <div className="lg:flex gap-10 mb-5">
+                <div>
+                    <br/>
                     <Image src={nathan} alt="Nathan Zhong" layout="fixed" width={800 / 4} height={676 / 4} />
                 </div>
                 <div>
                     <h3>Nathan Zhong, Outreach Director</h3>
-                    <p>Nathan Zhong is a senior at River Hill High School. He is the Co-President of his school&apos;s programming club and co-coaches his middle school math team. Nathan has also participated in a variety of community service events and nonprofits, hoping to utilize his experiences to better promote passion for AI in the community. In his free time, Nathan loves playing basketball and exploring the intersections between AI and public health.</p>
+                    <p>Nathan Zhong is a senior at River Hill High School. He is the Co-President of his school's programming club and co-coaches his middle school math team. Nathan has also participated in a variety of community service events and nonprofits, hoping to utilize his experiences to better promote passion for AI in the community. In his free time, Nathan loves playing basketball and exploring the intersections between AI and public health.</p>
                 </div>
             </div>
         </div>
