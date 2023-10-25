@@ -5,7 +5,7 @@ import Image from 'next/image';
 import rayhan from '~/public/img/good_picture_rayhan.jpg';
 import saketh from '~/public/img/saketh.jpg';
 import nathan from '~/public/img/nathan.jpg';
-import william from '~/public/img/william.JPG';
+import william from '~/public/img/william.jpg';
 
 const About: NextPage = () => (
     <>
