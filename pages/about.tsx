@@ -36,7 +36,7 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
-                    <Image src={william} alt="William Zhong" layout="fixed" width={820 / 4} height={770 / 4} />
+                    <Image src={william} alt="William Zhong" layout="fixed" width={624 / 4} height={686 / 4} />
                 </div>
                 <div>
                     <h3>William Zhong, Chief Operating Officer</h3>
@@ -50,7 +50,7 @@ const About: NextPage = () => (
                 </div>
                 <div>
                     <h3>Nathan Zhong, Outreach Director</h3>
-                    <p>Nathan Zhong is a senior at River Hill High School. He is the Co-President of his school&apos;s programming club and co-coaches his middle school math team. Nathan has also participated in a variety of community service events and nonprofits, hoping to utilize his experiences to better promote passion for AI in the community. In his free time, Nathan loves playing basketball and exploring the intersections between AI and public health.</p>
+                    <p>Nathan Zhong is a senior at River Hill High School. He is the co-president of his school&apos;s programming club and co-coaches his middle school math team. Nathan has also participated in a variety of community service events and nonprofits, hoping to utilize his experiences to better promote passion for AI in the community. In his free time, Nathan loves playing basketball and exploring the intersections between AI and public health.</p>
                 </div>
             </div>
         </div>
