@@ -57,7 +57,7 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
-                    <Image src={danial} alt="Danial Zirvi" layout="fixed" width={700 / 4} height={676 / 4} />
+                    <Image src={danial} alt="Danial Zirvi" layout="fixed" width={700 / 4} height={750 / 4} />
                 </div>
                 <div>
                     <h3>Danial Zirvi, Content Director</h3>
