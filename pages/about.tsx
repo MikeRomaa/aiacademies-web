@@ -57,11 +57,11 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
-                    <Image src={danial} alt="Danial Zirvi" layout="fixed" width={800 / 4} height={676 / 4} />
+                    <Image src={danial} alt="Danial Zirvi" layout="fixed" width={600 / 4} height={676 / 4} />
                 </div>
                 <div>
                     <h3>Danial Zirvi, Content Director</h3>
-                    <p>Danial Zirvi is a junior at River Hill High School. He is an active member of his school&apos;s programming and AI clubs. He has an interest in computer science, especially in robotics and control theory. In his free time, he likes to play piano and practice karate. </p>
+                    <p>Danial Zirvi is a junior at River Hill High School. He is an active member of his school&apos;s programming and AI clubs. He has an interest in computer science, especially in robotics and control theory. In his free time, he likes to play the piano and practice karate. </p>
                 </div>
             </div>
         </div>
