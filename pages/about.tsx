@@ -48,7 +48,7 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
-                    <Image src={ben} alt="Benjamin Li" layout="fixed" width={624 / 4} height={686 / 4} />
+                    <Image src={ben} alt="Benjamin Li" layout="fixed" width={550 / 4} height={686 / 4} />
                 </div>
                 <div>
                     <h3>Benjamin Li, Chief Technology Officer</h3>
