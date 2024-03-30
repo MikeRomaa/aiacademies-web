@@ -7,6 +7,7 @@ import saketh from '~/public/img/saketh.jpg';
 import nathan from '~/public/img/nathan.jpg';
 import william from '~/public/img/william_cropped.png';
 import danial from '~/public/img/Danial_Pic.jpg';
+import ben from '~/public/img/Ben_Li.jpeg';
 
 const About: NextPage = () => (
     <>
@@ -42,6 +43,16 @@ const About: NextPage = () => (
                 <div>
                     <h3>William Zhong, Chief Operating Officer</h3>
                     <p>William Zhong is a senior at River Hill High School. He is co-president of his school&apos;s AI/Machine Learning club and qualified for AIME twice. His interests involve applying machine learning to understand more about our world and improve society through health care and astronomy which he has pursued through various research internships. In his free time, William enjoys watching soccer, drawing, and expanding his LEGO Speed Champions collection.</p>
+                </div>
+            </div>
+            <div className="lg:flex gap-10 mb-5">
+                <div>
+                    <br/>
+                    <Image src={ben} alt="Benjamin Li" layout="fixed" width={624 / 4} height={686 / 4} />
+                </div>
+                <div>
+                    <h3>Benjamin Li, Chief Technology Officer</h3>
+                    <p>Benjamin Li is a senior at River Hill High School. He holds leadership positions in his school’s AI/ML and programming clubs. He is a four time AIME qualifier and was an intern at the JHU Applied Physics Lab doing work for machine vision and object recognition. Benjamin’s research interests include studying artificial and biological neural networks. In his free time he likes to fence, play piano, connect with nature, and travel with his friends and family.</p>
                 </div>
             </div>
             <div className="lg:flex gap-10 mb-5">
