@@ -10,6 +10,7 @@ import Script from 'next/script';
 const App = ({ Component, pageProps }: AppProps) => (
     <>
         <Head>
+            <meta name="google-adsense-account" content="ca-pub-4897811061387102">
             <meta name="theme-color" content="#03045E" />
             <meta name="description" content="AI Education for Students by Students" />
             <meta name="keywords" content="AI Education, Learn AI, Learn machine learning, Learn python, AI courses, Machine learning courses, Python courses, Artificial Intelligence" />
