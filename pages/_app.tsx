@@ -37,7 +37,7 @@ const App = ({ Component, pageProps }: AppProps) => (
         </Script>
         <meta name="google-adsense-account" content="ca-pub-4897811061387102"/>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4897811061387102"
-                crossOrigin="anonymous"></script>
+            crossOrigin="anonymous"></script>
 
         <Navigation />
         <Component {...pageProps} />
