@@ -10,9 +10,6 @@ import Script from 'next/script';
 const App = ({ Component, pageProps }: AppProps) => (
     <>
         <Head>
-            <meta name="google-adsense-account" content="ca-pub-4897811061387102"/>
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4897811061387102"
-                crossOrigin="anonymous"></script>
             <meta name="theme-color" content="#03045E" />
             <meta name="description" content="AI Education for Students by Students" />
             <meta name="keywords" content="AI Education, Learn AI, Learn machine learning, Learn python, AI courses, Machine learning courses, Python courses, Artificial Intelligence" />
@@ -38,6 +35,9 @@ const App = ({ Component, pageProps }: AppProps) => (
                     gtag('config', 'G-8HPKV9EYQB');
                 `}
         </Script>
+        <meta name="google-adsense-account" content="ca-pub-4897811061387102"/>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4897811061387102"
+                crossOrigin="anonymous"></script>
 
         <Navigation />
         <Component {...pageProps} />
