@@ -16,7 +16,7 @@ const request = util.promisify(require("request"));
 const getUrls = require("get-urls");
 
 const urlImageIsAccessible = async url => {
-  const correctedUrls = getUrls(url);
+  const correctedUrls = getUrls(https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724);
   if (correctedUrls.size !== 0) {
     const urlResponse = await request(correctedUrls.values().next().value);
     const contentType = urlResponse.headers["content-type"];
