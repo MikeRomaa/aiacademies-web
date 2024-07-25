@@ -22,7 +22,7 @@ const Blog: NextPage = () => (
             <a href="https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724" target="_blank" rel="noreferrer">
                 <a className="no-underline">
                     <Card className="!p-0 duration-500 hover:-translate-y-2">
-                        <Image src={Article} alt="Article Image" layout="fixed" width={700 / 4} height={676 / 4} />
+                        <Image src={articleimg} alt="Article Image" layout="fixed" width={700 / 4} height={676 / 4} />
                         <div className="p-4">
                             <p className="inline-flex items-center text-slate-400">
                                 <RiFileCopy2Line size={22} className="mr-2" />
