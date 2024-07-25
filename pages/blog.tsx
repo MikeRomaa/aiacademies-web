@@ -19,7 +19,7 @@ const Blog: NextPage = () => (
         <div className="container py-10">
             <h1>This weeks AI News</h1>
             <br/>
-            <a href="https://discord.gg/XSn8nxqvw4" target="_blank" rel="noreferrer">
+            <a href="https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724" target="_blank" rel="noreferrer">
                 <a className="no-underline">
                     <Card className="!p-0 duration-500 hover:-translate-y-2">
                         <div className="p-4">
