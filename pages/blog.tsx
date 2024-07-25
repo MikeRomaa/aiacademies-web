@@ -2,12 +2,6 @@ import React from 'react';
 import { NextPage } from 'next';
 import { PageHeader } from '~/components/PageHeader';
 import Image from 'next/image';
-import rayhan from '~/public/img/good_picture_rayhan.jpg';
-import saketh from '~/public/img/saketh.jpg';
-import nathan from '~/public/img/nathan.jpg';
-import william from '~/public/img/william_cropped.png';
-import danial from '~/public/img/Danial_Pic.jpg';
-import ben from '~/public/img/Ben_Li.jpeg';
 
 const Blog: NextPage = () => (
     <>
