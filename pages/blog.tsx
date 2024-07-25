@@ -1,6 +1,7 @@
 import React from 'react';
 import { NextPage } from 'next';
 import { PageHeader } from '~/components/PageHeader';
+import { Card } from '~/components/Card';
 import Image from 'next/image';
 
 const Blog: NextPage = () => (
