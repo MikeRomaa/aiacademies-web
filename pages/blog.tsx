@@ -16,7 +16,7 @@ interface CourseCardProps {
 const Blog: NextPage = () => (
     <>
         <PageHeader title="Blog" />
-        <div className="container py-10" w-300 h-500 py-6 pl-16 pr-6
+        <div className="container py-10">
             <h1>This weeks AI News</h1>
             <br/>
             <a href="https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724" target="_blank" rel="noreferrer">
