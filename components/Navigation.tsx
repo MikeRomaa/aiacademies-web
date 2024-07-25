@@ -36,6 +36,11 @@ const Navigation: React.FC = () => {
                         Partners
                     </a>
                 </Link>
+                <Link href="/blog" passHref>
+                    <a className="hidden lg:block">
+                        Blog
+                    </a>
+                </Link>
                 {session ? (
                     <>
                         <p className="font-medium hidden lg:visible">Signed in as {session.fullName}</p>
