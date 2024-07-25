@@ -1,8 +1,17 @@
 import React from 'react';
+import Link from 'next/link';
 import { NextPage } from 'next';
 import { PageHeader } from '~/components/PageHeader';
+import { RiFileCopy2Line } from 'react-icons/ri';
 import { Card } from '~/components/Card';
+import { BaseCourse } from '~/types/api';
 import Image from 'next/image';
+
+
+interface CourseCardProps {
+    course: BaseCourse;
+}
+
 
 const Blog: NextPage = () => (
     <>
