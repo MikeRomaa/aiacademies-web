@@ -6,6 +6,8 @@ import { RiFileCopy2Line } from 'react-icons/ri';
 import { Card } from '~/components/Card';
 import { BaseCourse } from '~/types/api';
 import Image from 'next/image';
+import articleimg from '~/public/img/Article_Img';
+
 
 
 interface CourseCardProps {
