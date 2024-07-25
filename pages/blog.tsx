@@ -9,7 +9,7 @@ const Blog: NextPage = () => (
         <div className="container py-10">
         <h1>This weeks AI News</h1>
         <br/>
-        <Link href={`/courses/${course.id}`} passHref>
+        <a href="https://discord.gg/XSn8nxqvw4" target="_blank" rel="noreferrer">
         <a className="no-underline">
             <Card className="!p-0 duration-500 hover:-translate-y-2">
                 <img
@@ -26,7 +26,7 @@ const Blog: NextPage = () => (
                 </div>
             </Card>
         </a>
-    </Link>
+    </a>
 
 
             <h2>Updates & Info</h2>
