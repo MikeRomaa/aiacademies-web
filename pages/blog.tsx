@@ -11,7 +11,7 @@ import ben from '~/public/img/Ben_Li.jpeg';
 
 const Blog: NextPage = () => (
     <>
-        <PageHeader title="About Us" />
+        <PageHeader title="Blog" />
         <div className="container py-10">
             <h1>Our Team</h1>
             <br/>
