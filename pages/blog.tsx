@@ -24,7 +24,7 @@ const Blog: NextPage = () => (
                     <Card className="!p-0 duration-500 hover:-translate-y-2">
                         <Image src={Article} alt="Article Image" layout="fixed" width={700} height={676} />
                         <div className="p-4">
-                            <h4>{"Study: When allocating scarce resources with AI, randomization can improve fairness"}</h4>
+                            <h4>{'Study: When allocating scarce resources with AI, randomization can improve fairness'}</h4>
                             <p className="inline-flex items-center text-slate-400">
                                 <RiFileCopy2Line size={22} className="mr-2" />
                             </p>
