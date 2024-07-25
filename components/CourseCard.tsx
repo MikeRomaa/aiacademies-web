@@ -13,8 +13,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => (
         <a className="no-underline">
             <Card className="!p-0 duration-500 hover:-translate-y-2">
                 <img
-                    src={course.banner}
-                    alt={course.name}
+                    src={https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724}
                     className="h-60 w-full object-cover rounded-t-2xl"
                 />
                 <div className="p-4">
