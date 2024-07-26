@@ -25,7 +25,7 @@ const Blog: NextPage = () => (
                             src={Article}
                             alt="Article Image"
                             className="h-60 w-full object-cover rounded-t-2xl"
-                            layout="responsive" 
+                            layout="responsive"
                         />
                         <div className="p-4">
                             <h4 className="text-lg font-semibold">
@@ -47,5 +47,4 @@ const Blog: NextPage = () => (
         </div>
     </>
 );
-
 export default Blog;
