@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '~/components/Button';
 import { useSession } from '~/utils/sessionHooks';
+import { Accordion, AccordionElement } from '~/components/Accordion';
 import logo from '~/public/img/full_logo.png';
 
 const Navigation: React.FC = () => {
@@ -11,6 +12,9 @@ const Navigation: React.FC = () => {
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
             <div className="container flex items-center gap-8">
+                <AccordionElement title="How do I create an account?">
+                    Simply click the “Sign Up” button on the top right, and then enter your full name, email address, and password.
+                </AccordionElement>
                 <Link href="/" passHref>
                     <a>
                         <Image src={logo} alt="AI Academies" height={100} width={333} />
