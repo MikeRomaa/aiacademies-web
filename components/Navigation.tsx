@@ -17,8 +17,8 @@ const Navigation: React.FC = () => {
         <nav className="sticky top-0 bg-white z-30 py-4">
             <div className="container flex items-center justify-between gap-4 lg:gap-8">
                 {/* Hamburger Menu */}
-                <button 
-                    className="lg:hidden flex items-center" 
+                <button
+                    className="lg:hidden flex items-center"
                     onClick={toggleMenu}
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
