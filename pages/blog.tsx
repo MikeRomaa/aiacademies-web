@@ -8,30 +8,37 @@ import { BaseCourse } from '~/types/api';
 import Image from 'next/image';
 import Article from '~/public/img/Article.jpg';
 
-
-
 interface CourseCardProps {
     course: BaseCourse;
 }
+
 const Blog: NextPage = () => (
     <>
         <PageHeader title="Blog" />
         <div className="container py-10">
-            <h1>This weeks AI News</h1>
+            <h1>This Week's AI News</h1>
             <br/>
-            <a href="https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724" target="_blank" rel="noreferrer">
+            <Link href="https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724" passHref>
                 <a className="no-underline">
                     <Card className="!p-0 duration-500 hover:-translate-y-2">
-                        <h4>{'Study: When allocating scarce resources with AI, randomization can improve fairness'}</h4>
-                        <Image src={Article} alt="Article Image" className="h-60 w-100 object-cover rounded-t-2xl" />
+                        <Image 
+                            src={Article} 
+                            alt="Article Image" 
+                            className="h-60 w-full object-cover rounded-t-2xl" 
+                            layout="responsive" 
+                        />
                         <div className="p-4">
-                            <p className="inline-flex items-center text-slate-400">
+                            <h4 className="text-lg font-semibold">
+                                Study: When allocating scarce resources with AI, randomization can improve fairness
+                            </h4>
+                            <p className="inline-flex items-center text-slate-400 mt-2">
                                 <RiFileCopy2Line size={22} className="mr-2" />
+                                Read More
                             </p>
                         </div>
                     </Card>
                 </a>
-            </a>
+            </Link>
             <br/>
             <div>
                 <h2>Updates & Info</h2>
