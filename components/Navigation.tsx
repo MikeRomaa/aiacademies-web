@@ -17,9 +17,10 @@ const Navigation: React.FC = () => {
         <nav className="sticky top-0 bg-white z-30 py-4">
             <div className="container flex items-center justify-between px-4 lg:px-8">
                 {/* Hamburger Menu Button */}
-                <button
+                <button 
                     className="lg:hidden text-2xl text-gray-900"
                     onClick={toggleMenu}
+                    aria-label="Toggle menu"
                 >
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -27,10 +28,10 @@ const Navigation: React.FC = () => {
                 </button>
                 {/* Logo */}
                 <Link href="/" passHref>
-                    <a className="flex-shrink-0">
+                    <a className="flex-shrink-0" aria-label="AI Academies home">
                         <Image
                             src={logo}
-                            alt="AI Academies"
+                            alt="AI Academies Logo"
                             height={60}
                             width={200}
                             className="w-auto h-16 lg:h-24"
@@ -40,19 +41,19 @@ const Navigation: React.FC = () => {
                 {/* Navigation Links for larger screens */}
                 <div className="hidden lg:flex lg:ml-auto lg:gap-8 items-center">
                     <Link href="/" passHref>
-                        <a className="py-2">Home</a>
+                        <a className="py-2 hover:text-deepblue-500">Home</a>
                     </Link>
                     <Link href="/courses" passHref>
-                        <a className="py-2">Courses</a>
+                        <a className="py-2 hover:text-deepblue-500">Courses</a>
                     </Link>
                     <Link href="/about" passHref>
-                        <a className="py-2">About Us</a>
+                        <a className="py-2 hover:text-deepblue-500">About Us</a>
                     </Link>
                     <Link href="/partners" passHref>
-                        <a className="py-2">Partners</a>
+                        <a className="py-2 hover:text-deepblue-500">Partners</a>
                     </Link>
                     <Link href="/blog" passHref>
-                        <a className="py-2">Blog</a>
+                        <a className="py-2 hover:text-deepblue-500">Blog</a>
                     </Link>
                 </div>
                 {/* Sign In/Sign Out and Session Info */}
@@ -71,7 +72,7 @@ const Navigation: React.FC = () => {
                     ) : (
                         <>
                             <Link href="/signin" passHref>
-                                <a className="font-medium">
+                                <a className="font-medium hover:text-deepblue-500">
                                     Sign In
                                 </a>
                             </Link>
@@ -87,14 +88,15 @@ const Navigation: React.FC = () => {
                 </div>
             </div>
             {/* Off-Canvas Menu */}
-            <div
+            <div 
                 className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-40 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}
                 onClick={toggleMenu}
             >
                 <div className="flex flex-col h-full">
-                    <button
+                    <button 
                         className="absolute top-4 right-4 text-white text-2xl"
                         onClick={toggleMenu}
+                        aria-label="Close menu"
                     >
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -102,19 +104,19 @@ const Navigation: React.FC = () => {
                     </button>
                     <div className="flex flex-col items-center justify-center flex-1 overflow-y-auto px-4">
                         <Link href="/" passHref>
-                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>Home</a>
+                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Home</a>
                         </Link>
                         <Link href="/courses" passHref>
-                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>Courses</a>
+                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Courses</a>
                         </Link>
                         <Link href="/about" passHref>
-                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>About Us</a>
+                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>About Us</a>
                         </Link>
                         <Link href="/partners" passHref>
-                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>Partners</a>
+                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Partners</a>
                         </Link>
                         <Link href="/blog" passHref>
-                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>Blog</a>
+                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Blog</a>
                         </Link>
                         {session ? (
                             <Link href="/signout" passHref>
@@ -127,7 +129,7 @@ const Navigation: React.FC = () => {
                         ) : (
                             <>
                                 <Link href="/signin" passHref>
-                                    <a className="text-white text-2xl py-4" onClick={toggleMenu}>Sign In</a>
+                                    <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Sign In</a>
                                 </Link>
                                 <Link href="/signup" passHref>
                                     <a>
@@ -145,142 +147,3 @@ const Navigation: React.FC = () => {
     );
 };
 export default Navigation;
-/*
-    return (
-        <nav className="sticky top-0 bg-white z-30 py-4">
-            <div className="container flex items-center gap-8">
-                <Link href="/" passHref>
-                    <a>
-                        <Image src={logo} alt="AI Academies" height={100} width={333} />
-                    </a>
-                </Link>
-                <button className="lg:hidden ml-auto" onClick={toggleMenu}>
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
-                <div className={`flex-col lg:flex-row lg:flex lg:ml-auto ${isMenuOpen ? 'flex' : 'hidden'} lg:gap-8`}>
-                    <Link href="/" passHref>
-                        <a className="ml-0 lg:ml-auto lg:block">
-                            Home
-                        </a>
-                    </Link>
-                    <Link href="/courses" passHref>
-                        <a className="lg:block">
-                            Courses
-                        </a>
-                    </Link>
-                    <Link href="/about" passHref>
-                        <a className="lg:block">
-                            About Us
-                        </a>
-                    </Link>
-                    <Link href="/partners" passHref>
-                        <a className="lg:block">
-                            Partners
-                        </a>
-                    </Link>
-                    <Link href="/blog" passHref>
-                        <a className="lg:block">
-                            Blog
-                        </a>
-                    </Link>
-                    {session ? (
-                        <>
-                            <p className="font-medium lg:block">Signed in as {session.fullName}</p>
-                            <Link href="/signout" passHref>
-                                <a>
-                                    <Button className="bg-deepblue-500 text-white font-medium">
-                                        Sign Out
-                                    </Button>
-                                </a>
-                            </Link>
-                        </>
-                    ) : (
-                        <>
-                            <Link href="/signin" passHref>
-                                <a className="font-medium lg:ml-0">
-                                    Sign In
-                                </a>
-                            </Link>
-                            <Link href="/signup" passHref>
-                                <a>
-                                    <Button className="bg-deepblue-500 text-white font-medium">
-                                        Sign Up
-                                    </Button>
-                                </a>
-                            </Link>
-                        </>
-                    )}
-                </div>
-            </div>
-        </nav>
-    );
-};
-    return (
-        <nav className="sticky top-0 bg-white z-30 py-4">
-            <div className="container flex items-center gap-8">
-                <Link href="/" passHref>
-                    <a>
-                        <Image src={logo} alt="AI Academies" height={100} width={333} />
-                    </a>
-                </Link>
-                <Link href="/" passHref>
-                    <a className="ml-0 hidden lg:ml-auto lg:block">
-                        Home
-                    </a>
-                </Link>
-                <Link href="/courses" passHref>
-                    <a className="hidden lg:block">
-                        Courses
-                    </a>
-                </Link>
-                <Link href="/about" passHref>
-                    <a className="hidden lg:block">
-                        About Us
-                    </a>
-                </Link>
-                <Link href="/partners" passHref>
-                    <a className="hidden lg:block">
-                        Partners
-                    </a>
-                </Link>
-                <Link href="/blog" passHref>
-                    <a className="hidden lg:block">
-                        Blog
-                    </a>
-                </Link>
-                {session ? (
-                    <>
-                        <p className="font-medium hidden lg:visible">Signed in as {session.fullName}</p>
-                        <Link href="/signout" passHref>
-                            <a>
-                                <Button className="bg-deepblue-500 text-white font-medium">
-                                    Sign Out
-                                </Button>
-                            </a>
-                        </Link>
-                    </>
-                ) : (
-                    <>
-                        <Link href="/signin" passHref>
-                            <a className="ml-auto lg:ml-0 font-medium">
-                                Sign In
-                            </a>
-                        </Link>
-                        <Link href="/signup" passHref>
-                            <a>
-                                <Button className="bg-deepblue-500 text-white font-medium">
-                                    Sign Up
-                                </Button>
-                            </a>
-                        </Link>
-                    </>
-                )}
-            </div>
-        </nav>
-    );
-};
-
-export default Navigation;
-*/
