@@ -15,10 +15,16 @@ const Navigation: React.FC = () => {
     };
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
-            <div className="container flex items-center gap-8">
+            <div className="container flex items-center justify-between gap-4 lg:gap-8">
                 <Link href="/" passHref>
-                    <a>
-                        <Image src={logo} alt="AI Academies" height={100} width={333} />
+                    <a className="flex-shrink-0">
+                        <Image 
+                            src={logo} 
+                            alt="AI Academies" 
+                            height={100} 
+                            width={333} 
+                            className="w-auto h-16 lg:h-24" 
+                        />
                     </a>
                 </Link>
                 <button className="lg:hidden ml-auto" onClick={toggleMenu}>
@@ -28,35 +34,35 @@ const Navigation: React.FC = () => {
                 </button>
                 <div className={`flex-col lg:flex-row lg:flex lg:ml-auto ${isMenuOpen ? 'flex' : 'hidden'} lg:gap-8`}>
                     <Link href="/" passHref>
-                        <a className="ml-0 lg:ml-auto lg:block">
+                        <a className="lg:block py-2">
                             Home
                         </a>
                     </Link>
                     <Link href="/courses" passHref>
-                        <a className="lg:block">
+                        <a className="lg:block py-2">
                             Courses
                         </a>
                     </Link>
                     <Link href="/about" passHref>
-                        <a className="lg:block">
+                        <a className="lg:block py-2">
                             About Us
                         </a>
                     </Link>
                     <Link href="/partners" passHref>
-                        <a className="lg:block">
+                        <a className="lg:block py-2">
                             Partners
                         </a>
                     </Link>
                     <Link href="/blog" passHref>
-                        <a className="lg:block">
+                        <a className="lg:block py-2">
                             Blog
                         </a>
                     </Link>
                 </div>
-                <div className="ml-auto flex gap-4">
+                <div className="ml-auto flex items-center gap-4">
                     {session ? (
                         <>
-                            <p className="font-medium lg:block">Signed in as {session.fullName}</p>
+                            <p className="font-medium hidden lg:block">Signed in as {session.fullName}</p>
                             <Link href="/signout" passHref>
                                 <a>
                                     <Button className="bg-deepblue-500 text-white font-medium">
@@ -68,13 +74,13 @@ const Navigation: React.FC = () => {
                     ) : (
                         <>
                             <Link href="/signin" passHref>
-                                <a className="font-medium lg:ml-0">
+                                <a className="font-medium hidden lg:block">
                                     Sign In
                                 </a>
                             </Link>
                             <Link href="/signup" passHref>
                                 <a>
-                                    <Button className="bg-deepblue-500 text-white font-medium lg:ml-0">
+                                    <Button className="bg-deepblue-500 text-white font-medium">
                                         Sign Up
                                     </Button>
                                 </a>
