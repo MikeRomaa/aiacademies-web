@@ -25,7 +25,6 @@ const Navigation: React.FC = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
                     </svg>
                 </button>
-                
                 {/* Logo */}
                 <Link href="/" passHref>
                     <a className="flex-shrink-0">
@@ -38,7 +37,6 @@ const Navigation: React.FC = () => {
                         />
                     </a>
                 </Link>
-                
                 {/* Navigation Links for larger screens */}
                 <div className="hidden lg:flex lg:ml-auto lg:gap-8 items-center">
                     <Link href="/" passHref>
@@ -57,7 +55,6 @@ const Navigation: React.FC = () => {
                         <a className="py-2">Blog</a>
                     </Link>
                 </div>
-                
                 {/* Sign In/Sign Out and Session Info */}
                 <div className="hidden lg:flex items-center gap-4 ml-auto">
                     {session ? (
@@ -89,9 +86,8 @@ const Navigation: React.FC = () => {
                     )}
                 </div>
             </div>
-
             {/* Off-Canvas Menu */}
-            <div 
+            <div
                 className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-40 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}
                 onClick={toggleMenu}
             >
