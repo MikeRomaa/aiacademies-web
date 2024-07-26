@@ -25,7 +25,8 @@ const Navigation: React.FC = () => {
                     <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
                     </svg>
-                    <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1">Menu</span>
+                    {/* Menu label positioned properly */}
+                    <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1 transform translate-x-full -translate-y-1">Menu</span>
                 </button>
                 {/* Logo */}
                 <Link href="/" passHref>
@@ -89,11 +90,11 @@ const Navigation: React.FC = () => {
                 </div>
             </div>
             {/* Off-Canvas Menu */}
-            <div
-                className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-40 transition-transform transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} lg:hidden`}
+            <div 
+                className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-40 transition-transform transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} lg:hidden`}
                 onClick={toggleMenu}
             >
-                <div className="flex flex-col h-full bg-gray-800">
+                <div className="flex flex-col h-full bg-transparent">
                     <button
                         className="absolute top-4 right-4 text-white text-3xl"
                         onClick={toggleMenu}
