@@ -5,7 +5,6 @@ import { Button } from '~/components/Button';
 import { useSession } from '~/utils/sessionHooks';
 import logo from '~/public/img/full_logo.png';
 
-export default Navbar;
 const Navigation: React.FC = () => {
     const session = useSession();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
