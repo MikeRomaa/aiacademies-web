@@ -42,7 +42,9 @@ const Blog: NextPage = () => (
             <br />
             <div>
                 <h2>Updates & Info</h2>
-                <p>Implementing two new Courses including Natural Language Processing and Ethics in AI</p>
+                <p>- Implementing two new Courses including Natural Language Processing and Ethics in AI</p>
+                <p>- Revamped the mobile interface for easier use</p>
+                <p>- Introduced a blog page with weekly articles and an info section</p>
             </div>
         </div>
     </>
