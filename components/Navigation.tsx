@@ -18,11 +18,12 @@ const Navigation: React.FC = () => {
             <div className="container flex items-center justify-between px-4 lg:px-8">
                 {/* Hamburger Menu Button */}
                 <button
-                    className="lg:hidden text-2xl text-gray-900"
+                    className="lg:hidden text-3xl text-gray-900 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     onClick={toggleMenu}
                     aria-label="Toggle menu"
+                    role="button"
                 >
-                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
                     </svg>
                 </button>
@@ -32,28 +33,29 @@ const Navigation: React.FC = () => {
                         <Image
                             src={logo}
                             alt="AI Academies Logo"
-                            height={60}
-                            width={200}
-                            className="w-auto h-16 lg:h-24"
+                            height={50}
+                            width={150}
+                            className="w-auto h-12 lg:h-20"
+                            loading="lazy" // lazy loading
                         />
                     </a>
                 </Link>
                 {/* Navigation Links for larger screens */}
                 <div className="hidden lg:flex lg:ml-auto lg:gap-8 items-center">
                     <Link href="/" passHref>
-                        <a className="py-2 hover:text-deepblue-500">Home</a>
+                        <a className="py-2 hover:text-deepblue-500" aria-current={window.location.pathname === '/' ? 'page' : undefined}>Home</a>
                     </Link>
                     <Link href="/courses" passHref>
-                        <a className="py-2 hover:text-deepblue-500">Courses</a>
+                        <a className="py-2 hover:text-deepblue-500" aria-current={window.location.pathname === '/courses' ? 'page' : undefined}>Courses</a>
                     </Link>
                     <Link href="/about" passHref>
-                        <a className="py-2 hover:text-deepblue-500">About Us</a>
+                        <a className="py-2 hover:text-deepblue-500" aria-current={window.location.pathname === '/about' ? 'page' : undefined}>About Us</a>
                     </Link>
                     <Link href="/partners" passHref>
-                        <a className="py-2 hover:text-deepblue-500">Partners</a>
+                        <a className="py-2 hover:text-deepblue-500" aria-current={window.location.pathname === '/partners' ? 'page' : undefined}>Partners</a>
                     </Link>
                     <Link href="/blog" passHref>
-                        <a className="py-2 hover:text-deepblue-500">Blog</a>
+                        <a className="py-2 hover:text-deepblue-500" aria-current={window.location.pathname === '/blog' ? 'page' : undefined}>Blog</a>
                     </Link>
                 </div>
                 {/* Sign In/Sign Out and Session Info */}
@@ -89,39 +91,42 @@ const Navigation: React.FC = () => {
             </div>
             {/* Off-Canvas Menu */}
             <div
-                className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-40 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}
+                className={`fixed top-0 left-0 bottom-0 bg-gray-800 bg-opacity-75 z-40 transition-transform duration-300 ease-in-out transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
                 onClick={toggleMenu}
+                aria-label="Close menu"
+                role="button"
             >
-                <div className="flex flex-col h-full">
+                <div className="flex flex-col h-full relative">
                     <button
-                        className="absolute top-4 right-4 text-white text-2xl"
+                        className="absolute top-4 right-4 text-white text-3xl p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onClick={toggleMenu}
                         aria-label="Close menu"
+                        role="button"
                     >
-                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                     <div className="flex flex-col items-center justify-center flex-1 overflow-y-auto px-4">
                         <Link href="/" passHref>
-                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Home</a>
+                            <a className="text-white text-3xl py-6 hover:text-deepblue-500" onClick={toggleMenu}>Home</a>
                         </Link>
                         <Link href="/courses" passHref>
-                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Courses</a>
+                            <a className="text-white text-3xl py-6 hover:text-deepblue-500" onClick={toggleMenu}>Courses</a>
                         </Link>
                         <Link href="/about" passHref>
-                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>About Us</a>
+                            <a className="text-white text-3xl py-6 hover:text-deepblue-500" onClick={toggleMenu}>About Us</a>
                         </Link>
                         <Link href="/partners" passHref>
-                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Partners</a>
+                            <a className="text-white text-3xl py-6 hover:text-deepblue-500" onClick={toggleMenu}>Partners</a>
                         </Link>
                         <Link href="/blog" passHref>
-                            <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Blog</a>
+                            <a className="text-white text-3xl py-6 hover:text-deepblue-500" onClick={toggleMenu}>Blog</a>
                         </Link>
                         {session ? (
                             <Link href="/signout" passHref>
                                 <a>
-                                    <Button className="bg-deepblue-500 text-white font-medium mb-4" onClick={toggleMenu}>
+                                    <Button className="bg-deepblue-500 text-white font-medium mt-4 mb-6" onClick={toggleMenu}>
                                         Sign Out
                                     </Button>
                                 </a>
@@ -129,11 +134,11 @@ const Navigation: React.FC = () => {
                         ) : (
                             <>
                                 <Link href="/signin" passHref>
-                                    <a className="text-white text-2xl py-4 hover:text-deepblue-500" onClick={toggleMenu}>Sign In</a>
+                                    <a className="text-white text-3xl py-6 hover:text-deepblue-500" onClick={toggleMenu}>Sign In</a>
                                 </Link>
                                 <Link href="/signup" passHref>
                                     <a>
-                                        <Button className="bg-deepblue-500 text-white font-medium mb-4" onClick={toggleMenu}>
+                                        <Button className="bg-deepblue-500 text-white font-medium mt-4 mb-6" onClick={toggleMenu}>
                                             Sign Up
                                         </Button>
                                     </a>
