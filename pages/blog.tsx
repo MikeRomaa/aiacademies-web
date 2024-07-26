@@ -21,10 +21,10 @@ const Blog: NextPage = () => (
             <Link href="https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724" passHref>
                 <a className="no-underline">
                     <Card className="!p-0 duration-500 hover:-translate-y-2">
-                        <Image 
-                            src={Article} 
-                            alt="Article Image" 
-                            className="h-60 w-full object-cover rounded-t-2xl" 
+                        <Image
+                            src={Article}
+                            alt="Article Image"
+                            className="h-60 w-full object-cover rounded-t-2xl"
                             layout="responsive" 
                         />
                         <div className="p-4">
