@@ -17,7 +17,7 @@ const Navigation: React.FC = () => {
         <nav className="sticky top-0 bg-white z-30 py-4">
             <div className="container flex items-center justify-between px-4 lg:px-8">
                 {/* Hamburger Menu Button */}
-                <button 
+                <button
                     className="lg:hidden text-2xl text-gray-900"
                     onClick={toggleMenu}
                     aria-label="Toggle menu"
@@ -88,12 +88,12 @@ const Navigation: React.FC = () => {
                 </div>
             </div>
             {/* Off-Canvas Menu */}
-            <div 
+            <div
                 className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-40 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}
                 onClick={toggleMenu}
             >
                 <div className="flex flex-col h-full">
-                    <button 
+                    <button
                         className="absolute top-4 right-4 text-white text-2xl"
                         onClick={toggleMenu}
                         aria-label="Close menu"
