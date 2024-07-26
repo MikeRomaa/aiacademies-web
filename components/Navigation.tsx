@@ -32,8 +32,8 @@ const Navigation: React.FC = () => {
                         <Image
                             src={logo}
                             alt="AI Academies Logo"
-                            height={60} 
-                            width={200} 
+                            height={60}
+                            width={200}
                             className="w-auto h-16 lg:h-24"
                         />
                     </a>
@@ -93,7 +93,7 @@ const Navigation: React.FC = () => {
                 onClick={toggleMenu}
             >
                 <div className="flex flex-col h-full">
-                    <button 
+                    <button
                         className="absolute top-4 right-4 text-white text-3xl"
                         onClick={toggleMenu}
                         aria-label="Close menu"
