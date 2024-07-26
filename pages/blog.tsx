@@ -16,15 +16,15 @@ const Blog: NextPage = () => (
     <>
         <PageHeader title="Blog" />
         <div className="container py-10">
-            <h1>This Week's AI News</h1>
-            <br/>
+            <h1>This Week&apos;s AI News</h1>
+            <br />
             <Link href="https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724" passHref>
                 <a className="no-underline">
                     <Card className="!p-0 duration-500 hover:-translate-y-2">
-                        <Image
-                            src={Article}
-                            alt="Article Image"
-                            className="h-60 w-full object-cover rounded-t-2xl"
+                        <Image 
+                            src={Article} 
+                            alt="Article Image" 
+                            className="h-60 w-full object-cover rounded-t-2xl" 
                             layout="responsive" 
                         />
                         <div className="p-4">
@@ -39,7 +39,7 @@ const Blog: NextPage = () => (
                     </Card>
                 </a>
             </Link>
-            <br/>
+            <br />
             <div>
                 <h2>Updates & Info</h2>
                 <p>Implementing two new Courses including Natural Language Processing and Ethics in AI</p>
@@ -47,4 +47,5 @@ const Blog: NextPage = () => (
         </div>
     </>
 );
+
 export default Blog;
