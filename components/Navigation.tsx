@@ -87,13 +87,13 @@ const Navigation: React.FC = () => {
                 </div>
             </div>
             {/* Off-Canvas Menu */}
-            <div 
+            <div
                 className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-40 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}
                 onClick={toggleMenu}
             >
                 <div className="flex flex-col h-full">
-                    <button 
-                        className="absolute top-4 right-4 text-white text-2xl" 
+                    <button
+                        className="absolute top-4 right-4 text-white text-2xl"
                         onClick={toggleMenu}
                     >
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
