@@ -4,13 +4,15 @@ import Link from 'next/link';
 import { Button } from '~/components/Button';
 import { useSession } from '~/utils/sessionHooks';
 import logo from '~/public/img/full_logo.png';
-const Navbar = ({ session, logo }) => {
+
+export default Navbar;
+const Navigation: React.FC = () => {
+    const session = useSession();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
             <div className="container flex items-center gap-8">
@@ -82,11 +84,6 @@ const Navbar = ({ session, logo }) => {
         </nav>
     );
 };
-
-export default Navbar;
-const Navigation: React.FC = () => {
-    const session = useSession();
-
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
             <div className="container flex items-center gap-8">
