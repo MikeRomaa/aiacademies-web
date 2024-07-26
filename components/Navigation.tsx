@@ -16,6 +16,16 @@ const Navigation: React.FC = () => {
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
             <div className="container flex items-center justify-between gap-4 lg:gap-8">
+                {/* Hamburger Menu */}
+                <button 
+                    className="lg:hidden flex items-center" 
+                    onClick={toggleMenu}
+                >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+                {/* Logo */}
                 <Link href="/" passHref>
                     <a className="flex-shrink-0">
                         <Image
@@ -27,39 +37,28 @@ const Navigation: React.FC = () => {
                         />
                     </a>
                 </Link>
-                <button className="lg:hidden ml-auto" onClick={toggleMenu}>
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
-                <div className={`flex-col lg:flex-row lg:flex lg:ml-auto ${isMenuOpen ? 'flex' : 'hidden'} lg:gap-8`}>
-                    <Link href="/" passHref>
-                        <a className="lg:block py-2">
-                            Home
-                        </a>
-                    </Link>
-                    <Link href="/courses" passHref>
-                        <a className="lg:block py-2">
-                            Courses
-                        </a>
-                    </Link>
-                    <Link href="/about" passHref>
-                        <a className="lg:block py-2">
-                            About Us
-                        </a>
-                    </Link>
-                    <Link href="/partners" passHref>
-                        <a className="lg:block py-2">
-                            Partners
-                        </a>
-                    </Link>
-                    <Link href="/blog" passHref>
-                        <a className="lg:block py-2">
-                            Blog
-                        </a>
-                    </Link>
+                {/* Navigation Links */}
+                <div className={`lg:flex lg:ml-auto ${isMenuOpen ? 'flex' : 'hidden'} lg:gap-8`}>
+                    <div className="flex-col lg:flex-row flex items-center gap-4 lg:gap-8">
+                        <Link href="/" passHref>
+                            <a className="py-2 lg:py-0">Home</a>
+                        </Link>
+                        <Link href="/courses" passHref>
+                            <a className="py-2 lg:py-0">Courses</a>
+                        </Link>
+                        <Link href="/about" passHref>
+                            <a className="py-2 lg:py-0">About Us</a>
+                        </Link>
+                        <Link href="/partners" passHref>
+                            <a className="py-2 lg:py-0">Partners</a>
+                        </Link>
+                        <Link href="/blog" passHref>
+                            <a className="py-2 lg:py-0">Blog</a>
+                        </Link>
+                    </div>
                 </div>
-                <div className="ml-auto flex items-center gap-4">
+                {/* Sign In/Sign Out and Session Info */}
+                <div className="flex items-center gap-4 ml-auto">
                     {session ? (
                         <>
                             <p className="font-medium hidden lg:block">Signed in as {session.fullName}</p>
