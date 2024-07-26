@@ -83,7 +83,6 @@ const Navigation: React.FC = () => {
             </div>
         </nav>
     );
-};
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
             <div className="container flex items-center gap-8">
