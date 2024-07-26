@@ -32,7 +32,12 @@ const Blog: NextPage = () => (
                     </Card>
                 </a>
             </a>
-            <h2>Updates & Info</h2>
+            <br/>
+            <div>
+                <h2>Updates & Info</h2>
+                <p>Implementing two new Courses including Natural Language Processing and Ethics in AI</p>
+            </div>
+            <p 
         </div>
     </>
 );
