@@ -15,10 +15,16 @@ const Navigation: React.FC = () => {
     };
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
-            <div className="container flex items-center gap-8">
+            <div className="container flex items-center justify-between gap-4 lg:gap-8">
                 <Link href="/" passHref>
-                    <a>
-                        <Image src={logo} alt="AI Academies" height={100} width={333} />
+                    <a className="flex-shrink-0">
+                        <Image 
+                            src={logo} 
+                            alt="AI Academies" 
+                            height={100} 
+                            width={333} 
+                            className="w-auto h-16 lg:h-24" // Adjust the height for mobile and larger screens
+                        />
                     </a>
                 </Link>
                 <button className="lg:hidden ml-auto" onClick={toggleMenu}>
@@ -28,27 +34,27 @@ const Navigation: React.FC = () => {
                 </button>
                 <div className={`flex-col lg:flex-row lg:flex lg:ml-auto ${isMenuOpen ? 'flex' : 'hidden'} lg:gap-8`}>
                     <Link href="/" passHref>
-                        <a className="ml-0 lg:ml-auto lg:block">
+                        <a className="ml-0 lg:ml-auto lg:block py-2 lg:py-0">
                             Home
                         </a>
                     </Link>
                     <Link href="/courses" passHref>
-                        <a className="lg:block">
+                        <a className="lg:block py-2 lg:py-0">
                             Courses
                         </a>
                     </Link>
                     <Link href="/about" passHref>
-                        <a className="lg:block">
+                        <a className="lg:block py-2 lg:py-0">
                             About Us
                         </a>
                     </Link>
                     <Link href="/partners" passHref>
-                        <a className="lg:block">
+                        <a className="lg:block py-2 lg:py-0">
                             Partners
                         </a>
                     </Link>
                     <Link href="/blog" passHref>
-                        <a className="lg:block">
+                        <a className="lg:block py-2 lg:py-0">
                             Blog
                         </a>
                     </Link>
@@ -56,7 +62,7 @@ const Navigation: React.FC = () => {
                 <div className="ml-auto flex gap-4">
                     {session ? (
                         <>
-                            <p className="font-medium lg:block">Signed in as {session.fullName}</p>
+                            <p className="font-medium lg:block hidden">Signed in as {session.fullName}</p>
                             <Link href="/signout" passHref>
                                 <a>
                                     <Button className="bg-deepblue-500 text-white font-medium">
@@ -86,6 +92,7 @@ const Navigation: React.FC = () => {
         </nav>
     );
 };
+
 export default Navigation;
 
 /*
