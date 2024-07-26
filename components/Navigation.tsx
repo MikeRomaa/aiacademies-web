@@ -87,7 +87,7 @@ const Navigation: React.FC = () => {
                 </div>
             </div>
             {/* Off-Canvas Menu */}
-            <div 
+            <div
                 className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-40 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}
                 onClick={toggleMenu}
             >
