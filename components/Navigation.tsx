@@ -18,12 +18,12 @@ const Navigation: React.FC = () => {
             <div className="container flex items-center justify-between gap-4 lg:gap-8">
                 <Link href="/" passHref>
                     <a className="flex-shrink-0">
-                        <Image 
-                            src={logo} 
-                            alt="AI Academies" 
-                            height={100} 
-                            width={333} 
-                            className="w-auto h-16 lg:h-24" 
+                        <Image
+                            src={logo}
+                            alt="AI Academies"
+                            height={100}
+                            width={333}
+                            className="w-auto h-16 lg:h-24"
                         />
                     </a>
                 </Link>
@@ -92,9 +92,7 @@ const Navigation: React.FC = () => {
         </nav>
     );
 };
-
 export default Navigation;
-
 /*
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
