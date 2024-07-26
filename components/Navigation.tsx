@@ -52,6 +52,8 @@ const Navigation: React.FC = () => {
                             Blog
                         </a>
                     </Link>
+                </div>
+                <div className="ml-auto flex gap-4">
                     {session ? (
                         <>
                             <p className="font-medium lg:block">Signed in as {session.fullName}</p>
@@ -85,6 +87,7 @@ const Navigation: React.FC = () => {
     );
 };
 export default Navigation;
+
 /*
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
