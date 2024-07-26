@@ -15,10 +15,10 @@ const Navigation: React.FC = () => {
     };
     return (
         <nav className="sticky top-0 bg-white z-30 py-4">
-            <div className="container flex items-center justify-between gap-4 lg:gap-8 px-4 lg:px-0">
+            <div className="container flex items-center justify-between px-4 lg:px-8">
                 {/* Hamburger Menu Button */}
                 <button
-                    className="lg:hidden flex items-center text-2xl text-gray-900"
+                    className="lg:hidden text-2xl text-gray-900"
                     onClick={toggleMenu}
                 >
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +59,7 @@ const Navigation: React.FC = () => {
                 <div className="hidden lg:flex items-center gap-4 ml-auto">
                     {session ? (
                         <>
-                            <p className="font-medium hidden lg:block">Signed in as {session.fullName}</p>
+                            <p className="font-medium">Signed in as {session.fullName}</p>
                             <Link href="/signout" passHref>
                                 <a>
                                     <Button className="bg-deepblue-500 text-white font-medium">
@@ -71,7 +71,7 @@ const Navigation: React.FC = () => {
                     ) : (
                         <>
                             <Link href="/signin" passHref>
-                                <a className="font-medium hidden lg:block">
+                                <a className="font-medium">
                                     Sign In
                                 </a>
                             </Link>
@@ -87,36 +87,39 @@ const Navigation: React.FC = () => {
                 </div>
             </div>
             {/* Off-Canvas Menu */}
-            <div
+            <div 
                 className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-40 transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}
                 onClick={toggleMenu}
             >
-                <div className="flex flex-col items-center justify-center h-full">
-                    <button className="absolute top-4 right-4 text-white text-2xl" onClick={toggleMenu}>
+                <div className="flex flex-col h-full">
+                    <button 
+                        className="absolute top-4 right-4 text-white text-2xl" 
+                        onClick={toggleMenu}
+                    >
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
-                    <div className="flex flex-col items-center space-y-4">
+                    <div className="flex flex-col items-center justify-center flex-1 overflow-y-auto px-4">
                         <Link href="/" passHref>
-                            <a className="text-white text-2xl" onClick={toggleMenu}>Home</a>
+                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>Home</a>
                         </Link>
                         <Link href="/courses" passHref>
-                            <a className="text-white text-2xl" onClick={toggleMenu}>Courses</a>
+                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>Courses</a>
                         </Link>
                         <Link href="/about" passHref>
-                            <a className="text-white text-2xl" onClick={toggleMenu}>About Us</a>
+                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>About Us</a>
                         </Link>
                         <Link href="/partners" passHref>
-                            <a className="text-white text-2xl" onClick={toggleMenu}>Partners</a>
+                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>Partners</a>
                         </Link>
                         <Link href="/blog" passHref>
-                            <a className="text-white text-2xl" onClick={toggleMenu}>Blog</a>
+                            <a className="text-white text-2xl py-4" onClick={toggleMenu}>Blog</a>
                         </Link>
                         {session ? (
                             <Link href="/signout" passHref>
                                 <a>
-                                    <Button className="bg-deepblue-500 text-white font-medium" onClick={toggleMenu}>
+                                    <Button className="bg-deepblue-500 text-white font-medium mb-4" onClick={toggleMenu}>
                                         Sign Out
                                     </Button>
                                 </a>
@@ -124,11 +127,11 @@ const Navigation: React.FC = () => {
                         ) : (
                             <>
                                 <Link href="/signin" passHref>
-                                    <a className="text-white text-2xl" onClick={toggleMenu}>Sign In</a>
+                                    <a className="text-white text-2xl py-4" onClick={toggleMenu}>Sign In</a>
                                 </Link>
                                 <Link href="/signup" passHref>
                                     <a>
-                                        <Button className="bg-deepblue-500 text-white font-medium" onClick={toggleMenu}>
+                                        <Button className="bg-deepblue-500 text-white font-medium mb-4" onClick={toggleMenu}>
                                             Sign Up
                                         </Button>
                                     </a>
