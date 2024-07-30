@@ -29,6 +29,9 @@ const Footer: React.FC = () => (
                 <Link href="/blog" passHref>
                     <a><p>Blog</p></a>
                 </Link>
+                <Link href="/feedback" passHref>
+                    <a><p>Feedback</p></a>
+                </Link>
             </div>
             <div>
                 <h4 className="mb-3 font-medium">Contact Us</h4>
