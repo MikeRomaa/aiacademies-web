@@ -1,47 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Markdown from 'markdown-to-jsx';
 import axios from 'axios';
 import CodeBlock from '~/components/CodeBlock';
-import { Course, Lesson } from '~/types/api';
+import { Course, Lesson, Quiz } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
 import Link from 'next/link';
 
 interface LessonPageProps {
     courseName: string;
     lesson: Lesson;
-    nextLesson: Lesson | null;
+    nextItem: { id: number; type: 'lesson' | 'quiz'; title: string } | null;
 }
 
-const LessonPage: NextPage<LessonPageProps> = ({ courseName, lesson, nextLesson }) => {
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        // Simulate loading delay for demonstration
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 500);
-
-        return () => clearTimeout(timer);
-    }, []);
-
-    if (loading) {
-        return (
-            <div className="container py-10 text-center">
-                <p>Loading...</p>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="container py-10 text-center">
-                <p>Error loading lesson details. Please try again later.</p>
-            </div>
-        );
-    }
-
+const LessonPage: NextPage<LessonPageProps> = ({ courseName, lesson, nextItem }) => {
     return (
         <>
             <PageHeader title={courseName} subtitle={`${lesson.number ?? 0}. ${lesson.title}`} />
@@ -49,17 +21,17 @@ const LessonPage: NextPage<LessonPageProps> = ({ courseName, lesson, nextLesson 
                 <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
                     {lesson.content}
                 </Markdown>
-                {nextLesson ? (
+                {nextItem ? (
                     <div className="mt-10">
-                        <Link href={`/courses/${lesson.course_id}/lesson/${nextLesson.id}`} passHref>
-                            <a className="bg-blue-600 text-white py-2 px-4 rounded shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out" aria-label={`Go to next lesson: ${nextLesson.title}`}>
-                                Next Lesson: {nextLesson.title}
+                        <Link href={`/${nextItem.type === 'lesson' ? `courses/${lesson.course_id}/lesson/${nextItem.id}` : `courses/${lesson.course_id}/quiz/${nextItem.id}`}`} passHref>
+                            <a className="bg-blue-600 text-white py-2 px-4 rounded shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out" aria-label={`Go to next ${nextItem.type}: ${nextItem.title}`}>
+                                Next {nextItem.type === 'lesson' ? 'Lesson' : 'Quiz'}: {nextItem.title}
                             </a>
                         </Link>
                     </div>
                 ) : (
                     <div className="mt-10">
-                        <p className="text-gray-600">This is the last lesson in the course.</p>
+                        <p className="text-gray-600">No more items available in this course.</p>
                     </div>
                 )}
             </div>
@@ -69,19 +41,35 @@ const LessonPage: NextPage<LessonPageProps> = ({ courseName, lesson, nextLesson 
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     try {
-        const lesson = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${params!.lesson_id}/`);
-        const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
+        const lessonId = params!.lesson_id as string;
+        const courseId = params!.course_id as string;
 
-        // Find the next lesson
+        const lesson = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${lessonId}/`);
+        const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/`);
+
         const lessons = course.data.lessons;
-        const currentLessonIndex = lessons.findIndex(l => l.id === lesson.data.id);
-        const nextLesson = lessons[currentLessonIndex + 1] || null;
+        const quizzes = course.data.quizzes;
+
+        // Find the current lesson index
+        const currentLessonIndex = lessons.findIndex(lesson => lesson.id === parseInt(lessonId, 10));
+
+        // Determine the next item in sequence
+        let nextItem = null;
+        if (currentLessonIndex + 1 < lessons.length) {
+            // Next lesson
+            nextItem = { id: lessons[currentLessonIndex + 1].id, type: 'lesson', title: lessons[currentLessonIndex + 1].title };
+        } else if (currentLessonIndex === lessons.length - 1) {
+            // No more lessons, but there might be a next quiz
+            if (quizzes.length > 0) {
+                nextItem = { id: quizzes[0].id, type: 'quiz', title: quizzes[0].title }; // Assuming quizzes are in order
+            }
+        }
 
         return {
             props: {
                 courseName: course.data.name,
                 lesson: lesson.data,
-                nextLesson
+                nextItem
             }
         };
     } catch (error) {
@@ -90,7 +78,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             props: {
                 courseName: '',
                 lesson: {} as Lesson,
-                nextLesson: null
+                nextItem: null
             }
         };
     }
