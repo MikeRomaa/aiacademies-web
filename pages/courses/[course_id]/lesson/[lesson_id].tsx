@@ -1,57 +1,49 @@
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import Markdown from 'markdown-to-jsx';
 import axios from 'axios';
-import CodeBlock from '~/components/CodeBlock';
-import { Course, Lesson } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
-import Link from 'next/link';
+import Markdown from 'markdown-to-jsx';
+import { Lesson } from '~/types/api';
+import { Course } from '~/types/api';
 
 interface LessonPageProps {
-    courseName: string;
     lesson: Lesson;
-    nextLesson: Lesson | null;
+    course: Course;
+    nextLesson?: Lesson;
 }
 
-const LessonPage: NextPage<LessonPageProps> = ({ courseName, lesson, nextLesson }) => (
+const LessonPage: NextPage<LessonPageProps> = ({ lesson, course, nextLesson }) => (
     <>
-        <PageHeader title={courseName} subtitle={`${lesson.number ?? 0}. ${lesson.title}`} />
+        <PageHeader title={course.name} subtitle={`${lesson.number}. ${lesson.title}`} />
         <div className="container py-10">
-            <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
-                {lesson.content}
-            </Markdown>
-            {nextLesson && (
-                <div className="mt-10">
-                    <Link href={`/courses/${lesson.course_id}/lesson/${nextLesson.id}`}>
-                        <a className="btn btn-primary">Next Lesson: {nextLesson.title}</a>
-                    </Link>
-                </div>
-            )}
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+                <Markdown>{lesson.content}</Markdown>
+                {nextLesson && (
+                    <div className="mt-6 text-center">
+                        <a href={`/courses/${course.id}/lessons/${nextLesson.id}`} className="text-blue-500 hover:underline">
+                            Next Lesson: {nextLesson.title}
+                        </a>
+                    </div>
+                )}
+            </div>
         </div>
     </>
 );
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const lessonId = params!.lesson_id as string;
-    const courseId = params!.course_id as string;
+    const lesson_id = params!.lesson_id as string;
+    const course_id = params!.course_id as string;
 
-    // Fetch the current lesson
-    const lesson = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${lessonId}/`);
-    const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/`);
+    const [lessonResponse, courseResponse] = await Promise.all([
+        axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${lesson_id}/`),
+        axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${course_id}/`)
+    ]);
 
-    // Fetch all lessons to determine the next lesson
-    const lessons = await axios.get<Lesson[]>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/lessons/`);
-    const sortedLessons = lessons.data.sort((a, b) => a.number - b.number);
-    const currentLessonIndex = sortedLessons.findIndex(l => l.id === lesson.data.id);
-    const nextLesson = sortedLessons[currentLessonIndex + 1] || null;
+    const lesson = lessonResponse.data;
+    const course = courseResponse.data;
+    const nextLesson = course.lessons.find((l) => l.number === lesson.number + 1);
 
-    return {
-        props: {
-            courseName: course.data.name,
-            lesson: lesson.data,
-            nextLesson: nextLesson,
-        }
-    };
+    return { props: { lesson, course, nextLesson: nextLesson ?? null } };
 };
 
 export default LessonPage;
