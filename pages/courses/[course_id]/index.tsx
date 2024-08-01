@@ -2,7 +2,8 @@ import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
 import Markdown from 'markdown-to-jsx';
-import { LessonLink, QuizLink } from '~/components/LessonLink';
+import LessonLink from '~/components/LessonLink'; // Update import path if necessary
+import QuizLink from '~/components/QuizLink'; // Update import path if necessary
 import { difficultyIntToString } from '~/utils/strings';
 import { Course, Lesson } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
