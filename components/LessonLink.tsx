@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { Course, Lesson, Quiz } from '~/types/api';
+import { AiOutlineArrowRight, AiOutlineClockCircle, AiOutlineFlag } from 'react-icons/ai';
+import { Course, Lesson } from '~/types/api';
 import { useSession } from '~/utils/sessionHooks';
 
 interface LessonLinkProps {
