@@ -2,82 +2,48 @@ import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
 import Markdown from 'markdown-to-jsx';
-import { Quiz as QuizType, Lesson, Course } from '~/types/api'; // Import Course type
 import { PageHeader } from '~/components/PageHeader';
+import { Quiz, QuizQuestion, Course } from '~/types/api';
 
 interface QuizPageProps {
-    quiz: QuizType;
-    nextQuiz?: QuizType; // Use `undefined` instead of `null`
-    nextLesson?: Lesson; // Include nextLesson for handling lessons
+    quiz: Quiz;
+    course: Course;
+    nextQuiz?: Quiz;
 }
 
-const QuizPage: NextPage<QuizPageProps> = ({ quiz, nextQuiz, nextLesson }) => {
-    const quizContent = quiz.content || ''; // Ensure `quiz.content` is a string
-
-    return (
-        <>
-            <PageHeader title={`Quiz ${quiz.number ?? 0}: ${quiz.title}`} />
-            <div className="container py-10">
-                <Markdown className="markdown-body prose max-w-none">
-                    {quizContent}
-                </Markdown>
-                <div className="mt-4">
-                    {nextQuiz && (
-                        <a
-                            href={`/courses/${nextQuiz.course_id}/quiz/${nextQuiz.id}`}
-                            className="btn btn-primary"
-                        >
+const QuizPage: NextPage<QuizPageProps> = ({ quiz, course, nextQuiz }) => (
+    <>
+        <PageHeader title={course.name} subtitle={`${quiz.number}. ${quiz.title}`} />
+        <div className="container py-10">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+                <h2 className="text-xl font-semibold mb-4">Quiz Content</h2>
+                <Markdown>{quiz.content}</Markdown>
+                {nextQuiz && (
+                    <div className="mt-6 text-center">
+                        <a href={`/courses/${course.id}/quizzes/${nextQuiz.id}`} className="text-blue-500 hover:underline">
                             Next Quiz: {nextQuiz.title}
                         </a>
-                    )}
-                    {nextLesson && (
-                        <a
-                            href={`/courses/${nextLesson.course_id}/lessons/${nextLesson.id}`}
-                            className="btn btn-secondary"
-                        >
-                            Next Lesson: {nextLesson.title}
-                        </a>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
-        </>
-    );
-};
+        </div>
+    </>
+);
 
-export const getServerSideProps: GetServerSideProps<QuizPageProps> = async ({ params }) => {
-    const quiz_id = parseInt(params!.quiz_id as string, 10);
-    const course_id = parseInt(params!.course_id as string, 10);
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+    const quiz_id = params!.quiz_id as string;
+    const course_id = params!.course_id as string;
 
-    try {
-        const [quizResponse, courseResponse] = await Promise.all([
-            axios.get<QuizType>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz_id}/`),
-            axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${course_id}/`)
-        ]);
+    const [quizResponse, courseResponse] = await Promise.all([
+        axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz_id}/`),
+        axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${course_id}/`)
+    ]);
 
-        const course = courseResponse.data;
-        const quizzes = course.quizzes;
-        const lessons = course.lessons;
+    const quiz = quizResponse.data;
+    const course = courseResponse.data;
+    const nextQuiz = course.quizzes.find((q) => q.number === quiz.number + 1);
 
-        const currentQuizIndex = quizzes.findIndex(q => q.id === quiz_id);
-        const nextQuiz = currentQuizIndex + 1 < quizzes.length ? quizzes[currentQuizIndex + 1] : undefined;
-
-        // If lesson IDs are separate from quiz IDs, ensure you use appropriate logic for lessons
-        const currentLessonIndex = lessons.findIndex(l => l.id === quiz_id); // Placeholder logic
-        const nextLesson = currentLessonIndex + 1 < lessons.length ? lessons[currentLessonIndex + 1] : undefined;
-
-        return {
-            props: {
-                quiz: quizResponse.data,
-                nextQuiz,
-                nextLesson,
-            },
-        };
-    } catch (error) {
-        // Handle error accordingly
-        return {
-            notFound: true,
-        };
-    }
+    return { props: { quiz, course, nextQuiz: nextQuiz ?? null } };
 };
 
 export default QuizPage;
