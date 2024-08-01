@@ -1,11 +1,28 @@
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
-import { Course, Lesson, Quiz } from '~/types/api';
+import { Course } from '~/types/api';
 import LessonLink from '~/components/LessonLink';
 import QuizLink from '~/components/QuizLink';
 import { PageHeader } from '~/components/PageHeader';
 import { Card } from '~/components/Card';
+import Markdown from 'react-markdown'; // Make sure you have this installed
+
+// Utility function to convert difficulty integer to string
+const difficultyIntToString = (difficulty: number): string => {
+    switch (difficulty) {
+        case 0:
+            return 'Easy';
+        case 1:
+            return 'Moderate';
+        case 2:
+            return 'Difficult';
+        case 3:
+            return 'Expert';
+        default:
+            return 'Unknown'; // Fallback for unexpected values
+    }
+};
 
 interface CoursePageProps {
     course: Course;
@@ -54,5 +71,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
     return { props: { course: course.data } };
 };
+
+export default CoursePage;
 
 export default CoursePage;
