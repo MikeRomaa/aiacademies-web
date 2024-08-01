@@ -51,7 +51,7 @@ const About: NextPage = () => (
                     <Image src={danial} alt="Danial Zirvi" layout="fixed" width={650 / 4} height={750 / 4} />
                 </div>
                 <div>
-                    <h3>Danial Zirvi, Content Director</h3>
+                    <h3>Danial Zirvi, Content Director, Marketing Specialist, Manager, CFO</h3>
                     <p>Danial Zirvi is a junior at River Hill High School. He is an active member of his school&apos;s programming and AI clubs. He has an interest in computer science, especially in robotics and control theory. In his free time, he likes to play the piano and practice karate. </p>
                 </div>
             </div>
