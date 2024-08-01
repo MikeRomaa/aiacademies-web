@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
+import { Quiz } from '~/types/api';
 import { Lesson } from '~/types/api';
+import { useSession } from '~/utils/sessionHooks';
 
 interface LessonLinkProps {
     course: Course;
@@ -30,11 +32,6 @@ export const LessonLink: React.FC<LessonLinkProps> = ({ course, lesson }) => (
         </a>
     </Link>
 );
-
-import React from 'react';
-import Link from 'next/link';
-import { Quiz } from '~/types/api';
-import { useSession } from '~/utils/sessionHooks';
 
 interface QuizLinkProps {
     course: Course;
