@@ -37,7 +37,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     // Fetch the current lesson
     const lessonResponse = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${lessonId}/`);
     const lesson = lessonResponse.data;
-    
     // Fetch the course and lessons
     const courseResponse = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/`);
     const course = courseResponse.data;
