@@ -4,7 +4,7 @@ import axios from 'axios';
 import Markdown from 'markdown-to-jsx';
 import { Quiz } from '~/types/api'; // Ensure this matches the actual API response
 import { PageHeader } from '~/components/PageHeader';
-import { CodeBlock } from '~/components/CodeBlock'; // Ensure you have this component if needed
+import CodeBlock from '~/components/CodeBlock'; // Ensure you have this component if needed
 
 interface QuizPageProps {
     quiz: Quiz;
