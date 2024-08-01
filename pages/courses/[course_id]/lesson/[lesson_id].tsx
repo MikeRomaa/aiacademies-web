@@ -5,7 +5,7 @@ import axios from 'axios';
 import CodeBlock from '~/components/CodeBlock';
 import { Course, Lesson } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
-import Link from 'next/link'; // Import Link component from Next.js
+import Link from 'next/link';
 
 interface LessonPageProps {
     courseName: string;
@@ -20,10 +20,9 @@ const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson, nextLesson }) =
             <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
                 {lesson.content}
             </Markdown>
-
             {nextLesson && (
                 <div className="mt-4">
-                    <Link href={`/courses/${lesson.course}/lessons/${nextLesson.id}`}>
+                    <Link href={`/courses/${lesson.course_id}/lessons/${nextLesson.id}`}>
                         <a className="btn btn-primary">Next Lesson: {nextLesson.title}</a>
                     </Link>
                 </div>
@@ -33,11 +32,20 @@ const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson, nextLesson }) =
 );
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const lesson = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${params!.lesson_id}/`);
-    const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
-    const lessons = await axios.get<Lesson[]>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/lessons/`);
+    const lessonId = params!.lesson_id as string;
+    const courseId = params!.course_id as string;
 
+    // Fetch the current lesson
+    const lesson = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${lessonId}/`);
+    
+    // Fetch the course and lessons
+    const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/`);
+    const lessons = await axios.get<Lesson[]>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/lessons/`);
+
+    // Find the index of the current lesson
     const currentIndex = lessons.data.findIndex(l => l.id === lesson.data.id);
+
+    // Determine the next lesson
     const nextLesson = lessons.data[currentIndex + 1] || null;
 
     return {
