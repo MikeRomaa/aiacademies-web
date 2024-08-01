@@ -9,7 +9,7 @@ import { Input, Radio } from '~/components/Forms';
 import CodeBlock from '~/components/CodeBlock';
 import { Button } from '~/components/Button';
 import axiosInstance from '~/utils/axiosInstance';
-import { Course, Lesson, Quiz, QuizAttempt } from '~/types/api';
+import { Course, Quiz, QuizAttempt } from '~/types/api';
 import Spinner from '~/components/Spinner';
 
 interface QuizPageProps {
@@ -23,7 +23,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
 
     useEffect(() => {
         getAttemptReview();
-    }, []);
+    }, [quiz.id]);
 
     const getAttemptReview = useCallback(() => {
         axiosInstance
@@ -39,8 +39,6 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
             </div>
         );
     }
-
-    const quizContent = quiz.content || ''; // Ensure `quiz.content` is a string
 
     if (review) {
         return (
