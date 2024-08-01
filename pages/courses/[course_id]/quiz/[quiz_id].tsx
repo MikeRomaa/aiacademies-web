@@ -9,28 +9,39 @@ import { Input, Radio } from '~/components/Forms';
 import CodeBlock from '~/components/CodeBlock';
 import { Button } from '~/components/Button';
 import axiosInstance from '~/utils/axiosInstance';
-import { Course, Quiz, QuizAttempt } from '~/types/api';
+import { Course, Lesson, Quiz, QuizAttempt } from '~/types/api';
 import Spinner from '~/components/Spinner';
 
 interface QuizPageProps {
     courseName: string;
+    courseId: number;
     quiz: Quiz;
+    nextLessonId?: number;
+    nextQuizId?: number;
 }
 
-const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
+const QuizPage: NextPage<QuizPageProps> = ({ courseName, courseId, quiz, nextLessonId, nextQuizId }) => {
     const [review, setReview] = useState<QuizAttempt | undefined>(undefined);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getAttemptReview();
-    }, [quiz.id]);
+    }, []);
 
     const getAttemptReview = useCallback(() => {
         axiosInstance
             .get(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/review/`)
             .then(({ data }) => setReview(data))
             .finally(() => setLoading(false));
-    }, [quiz.id]);
+    }, [setReview]);
+
+    const handleNextPage = () => {
+        if (nextQuizId) {
+            window.location.href = `/courses/${courseId}/quiz/${nextQuizId}`;
+        } else if (nextLessonId) {
+            window.location.href = `/courses/${courseId}/lessons/${nextLessonId}`;
+        }
+    };
 
     if (loading) {
         return (
@@ -73,6 +84,9 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                         </section>
                     ))}
                     <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
+                    {nextLessonId || nextQuizId ? (
+                        <Button className="bg-deepblue-700 text-white mt-4" onClick={handleNextPage}>Next {nextQuizId ? 'Quiz' : 'Lesson'}</Button>
+                    ) : null}
                 </div>
             </>
         );
@@ -143,15 +157,22 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const quiz = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
-    const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
+    try {
+        const quiz = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
+        const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
 
-    return {
-        props: {
-            courseName: course.data.name,
-            quiz: quiz.data,
-        }
-    };
+        const quizIndex = course.data.quizzes.findIndex(q => q.id === quiz.data.id);
+        const nextQuizId = quizIndex >= 0 && quizIndex < course.data.quizzes.length - 1
+            ? course.data.quizzes[quizIndex + 1].id
+            : undefined;
+        const nextLessonId = quizIndex >= 0 && course.data.lessons.length > 0
+            ? course.data.lessons[0].id
+            : undefined;
+
+        return { props: { courseName: course.data.name, courseId: course.data.id, quiz: quiz.data, nextLessonId, nextQuizId } };
+    } catch (error) {
+        return { notFound: true };
+    }
 };
 
 export default QuizPage;
