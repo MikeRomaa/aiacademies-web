@@ -2,7 +2,7 @@ import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
 import Markdown from 'markdown-to-jsx';
-import { Quiz as QuizType, Lesson } from '~/types/api';
+import { Quiz as QuizType, Lesson, Course } from '~/types/api'; // Import Course type
 import { PageHeader } from '~/components/PageHeader';
 
 interface QuizPageProps {
@@ -61,7 +61,8 @@ export const getServerSideProps: GetServerSideProps<QuizPageProps> = async ({ pa
         const currentQuizIndex = quizzes.findIndex(q => q.id === quiz_id);
         const nextQuiz = currentQuizIndex + 1 < quizzes.length ? quizzes[currentQuizIndex + 1] : undefined;
 
-        const currentLessonIndex = lessons.findIndex(l => l.id === quiz_id); // Change this to appropriate index for lesson
+        // If lesson IDs are separate from quiz IDs, ensure you use appropriate logic for lessons
+        const currentLessonIndex = lessons.findIndex(l => l.id === quiz_id); // Placeholder logic
         const nextLesson = currentLessonIndex + 1 < lessons.length ? lessons[currentLessonIndex + 1] : undefined;
 
         return {
