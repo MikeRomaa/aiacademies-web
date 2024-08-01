@@ -18,15 +18,23 @@ const CoursePage: NextPage<CoursePageProps> = ({ course, lessons, quizzes }) => 
             <div className="bg-white shadow-md rounded-lg p-6">
                 <h2 className="text-2xl font-bold mb-4">Lessons</h2>
                 <div className="space-y-4">
-                    {lessons.map(lesson => (
-                        <LessonLink key={lesson.id} lesson={lesson} courseId={course.id} />
-                    ))}
+                    {lessons.length > 0 ? (
+                        lessons.map((lesson) => (
+                            <LessonLink key={lesson.id} lesson={lesson} courseId={course.id} />
+                        ))
+                    ) : (
+                        <p>No lessons available for this course.</p>
+                    )}
                 </div>
                 <h2 className="text-2xl font-bold mt-8 mb-4">Quizzes</h2>
                 <div className="space-y-4">
-                    {quizzes.map(quiz => (
-                        <QuizLink key={quiz.id} quiz={quiz} courseId={course.id} />
-                    ))}
+                    {quizzes.length > 0 ? (
+                        quizzes.map((quiz) => (
+                            <QuizLink key={quiz.id} quiz={quiz} courseId={course.id} />
+                        ))
+                    ) : (
+                        <p>No quizzes available for this course.</p>
+                    )}
                 </div>
             </div>
         </div>
@@ -53,7 +61,7 @@ export const getServerSideProps: GetServerSideProps<CoursePageProps> = async (co
             },
         };
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching course data:', error);
         return {
             notFound: true,
         };
