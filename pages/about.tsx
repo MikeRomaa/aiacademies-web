@@ -48,6 +48,16 @@ const About: NextPage = () => (
             <div className="lg:flex gap-10 mb-5">
                 <div>
                     <br/>
+                    <Image src={danial} alt="Danial Zirvi" layout="fixed" width={650 / 4} height={750 / 4} />
+                </div>
+                <div>
+                    <h3>Danial Zirvi, Content Director</h3>
+                    <p>Danial Zirvi is a junior at River Hill High School. He is an active member of his school&apos;s programming and AI clubs. He has an interest in computer science, especially in robotics and control theory. In his free time, he likes to play the piano and practice karate. </p>
+                </div>
+            </div>
+            <div className="lg:flex gap-10 mb-5">
+                <div>
+                    <br/>
                     <Image src={ben} alt="Benjamin Li" layout="fixed" width={550 / 4} height={686 / 4} />
                 </div>
                 <div>
@@ -63,16 +73,6 @@ const About: NextPage = () => (
                 <div>
                     <h3>Nathan Zhong, Outreach Director</h3>
                     <p>Nathan Zhong is a senior at River Hill High School. He is the co-president of his school&apos;s programming club and co-coaches his middle school math team. Nathan has also participated in a variety of community service events and nonprofits, hoping to utilize his experiences to better promote passion for AI in the community. In his free time, Nathan loves playing basketball and exploring the intersections between AI and public health.</p>
-                </div>
-            </div>
-            <div className="lg:flex gap-10 mb-5">
-                <div>
-                    <br/>
-                    <Image src={danial} alt="Danial Zirvi" layout="fixed" width={650 / 4} height={750 / 4} />
-                </div>
-                <div>
-                    <h3>Danial Zirvi, Content Director</h3>
-                    <p>Danial Zirvi is a junior at River Hill High School. He is an active member of his school&apos;s programming and AI clubs. He has an interest in computer science, especially in robotics and control theory. In his free time, he likes to play the piano and practice karate. </p>
                 </div>
             </div>
         </div>
