@@ -5,7 +5,7 @@ import axios from 'axios';
 import CodeBlock from '~/components/CodeBlock';
 import { Course, Lesson } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
-import Link from 'next/link';
+import { LessonLink } from '~/components/LessonLink';
 
 interface LessonPageProps {
     courseName: string;
@@ -22,9 +22,7 @@ const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson, nextLesson }) =
             </Markdown>
             {nextLesson && (
                 <div className="mt-4">
-                    <Link href={`/courses/${lesson.course_id}/lessons/${nextLesson.id}`}>
-                        <a className="btn btn-primary">Next Lesson: {nextLesson.title}</a>
-                    </Link>
+                    <LessonLink course={lesson.course} lesson={nextLesson} />
                 </div>
             )}
         </div>
@@ -37,6 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     // Fetch the current lesson
     const lesson = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${lessonId}/`);
+    
     // Fetch the course and lessons
     const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/`);
     const lessons = await axios.get<Lesson[]>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/lessons/`);
