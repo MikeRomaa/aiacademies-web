@@ -1,8 +1,8 @@
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
-import { LessonLink } from '~/components/LessonLink';
-import { QuizLink } from '~/components/QuizLink';
+import LessonLink from '~/components/LessonLink';
+import QuizLink from '~/components/QuizLink';
 import { Course } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
 import { Card } from '~/components/Card';
