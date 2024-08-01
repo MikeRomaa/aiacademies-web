@@ -14,13 +14,11 @@ import Spinner from '~/components/Spinner';
 
 interface QuizPageProps {
     courseName: string;
-    courseId: number;
     quiz: Quiz;
-    nextLessonId?: number;
-    nextQuizId?: number;
+    nextItem: Lesson | Quiz | null;
 }
 
-const QuizPage: NextPage<QuizPageProps> = ({ courseName, courseId, quiz, nextLessonId, nextQuizId }) => {
+const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextItem }) => {
     const [review, setReview] = useState<QuizAttempt | undefined>(undefined);
     const [loading, setLoading] = useState(true);
 
@@ -35,14 +33,6 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, courseId, quiz, nextLes
             .finally(() => setLoading(false));
     }, [setReview]);
 
-    const handleNextPage = () => {
-        if (nextQuizId) {
-            window.location.href = `/courses/${courseId}/quiz/${nextQuizId}`;
-        } else if (nextLessonId) {
-            window.location.href = `/courses/${courseId}/lessons/${nextLessonId}`;
-        }
-    };
-
     if (loading) {
         return (
             <div className="h-96 bg-white flex place-items-center">
@@ -51,128 +41,129 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, courseId, quiz, nextLes
         );
     }
 
-    if (review) {
-        return (
-            <>
-                <PageHeader title={courseName} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
-                <div className="container py-10">
-                    <h3 className="font-medium">Attempt Score: {review.score}%</h3>
-                    {quiz.questions.map((question, i) => (
-                        <section className="flex mb-8" key={i}>
-                            <div>
-                                {question.context && (
-                                    <Markdown className="markdown-body max-w-none" options={{ overrides: { pre: CodeBlock } }}>
-                                        {question.context}
-                                    </Markdown>
-                                )}
-                                <p className="font-medium">{i + 1}. {question.question}</p>
-                                {question.multiple_choice && (
-                                    <ul>
-                                        {question.choices?.map((choice) => (
-                                            <li key={choice} className="list-outside list-disc ml-5">{choice}</li>
-                                        ))}
-                                    </ul>
-                                )}
-                                <p className={classNames('font-medium', {
-                                    'text-emerald-600': review.answers[i].trim() === review.questions[i].correct_answer,
-                                    'text-red-600': review.answers[i].trim() !== review.questions[i].correct_answer,
-                                })}>Your answer: {review.answers[i]}</p>
-                                {review.answers[i].trim() === review.questions[i].correct_answer && (
-                                    <p className="text-emerald-600 font-medium">Correct answer: {review.questions[i].correct_answer}</p>
-                                )}
-                            </div>
-                        </section>
-                    ))}
-                    <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
-                    {nextLessonId || nextQuizId ? (
-                        <Button className="bg-deepblue-700 text-white mt-4" onClick={handleNextPage}>Next {nextQuizId ? 'Quiz' : 'Lesson'}</Button>
-                    ) : null}
-                </div>
-            </>
-        );
-    }
+    const handleSubmit = (values: any) => {
+        axiosInstance
+            .post(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/`, values)
+            .then(() => {
+                setLoading(true);
+                getAttemptReview();
+            });
+    };
+
+    const quizContent = quiz.content || ''; // Ensure `quiz.content` is a string
 
     return (
         <>
             <PageHeader title={courseName} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
             <div className="container py-10">
-                <Formik
-                    initialValues={quiz.questions.reduce((acc, _, i) => {
-                        acc[i] = undefined;
-                        return acc;
-                    }, {} as any)}
-                    onSubmit={(values, { setSubmitting }) => {
-                        axiosInstance
-                            .post(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/`, values)
-                            .then(() => {
-                                setLoading(true);
-                                getAttemptReview();
-                            })
-                            .finally(() => setSubmitting(false));
-                    }}
-                >
-                    {({ errors, isSubmitting }) => (
-                        <Form>
-                            {quiz.questions.map((question, i) => (
-                                <section className="flex mb-8" key={i}>
-                                    <div>
-                                        {question.context && (
-                                            <Markdown className="markdown-body max-w-none" options={{ overrides: { pre: CodeBlock } }}>
-                                                {question.context}
-                                            </Markdown>
-                                        )}
-                                        {question.multiple_choice ? (
-                                            <Field
-                                                required
-                                                as={Radio}
-                                                label={`${i + 1}. ${question.question}`}
-                                                name={i}
-                                                choices={question.choices?.map((choice) => ({ label: choice, value: choice })) ?? []}
-                                            />
-                                        ) : (
-                                            <Field
-                                                required
-                                                as={Input}
-                                                label={`${i + 1}. ${question.question}`}
-                                                name={i}
-                                            />
-                                        )}
-                                    </div>
-                                </section>
-                            ))}
-                            <Button
-                                className="bg-deepblue-700 text-white"
-                                loading={isSubmitting}
-                                disabled={!!Object.keys(errors).length}
-                                type="submit"
-                            >
-                                Save
-                            </Button>
-                        </Form>
-                    )}
-                </Formik>
+                {review ? (
+                    <>
+                        <h3 className="font-medium">Attempt Score: {review.score}%</h3>
+                        {quiz.questions.map((question, i) => (
+                            <section className="flex mb-8" key={i}>
+                                <div>
+                                    {question.context && (
+                                        <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
+                                            {question.context}
+                                        </Markdown>
+                                    )}
+                                    <p className="font-medium">{i + 1}. {question.question}</p>
+                                    {question.multiple_choice && (
+                                        <ul>
+                                            {question.choices?.map((choice) => (
+                                                <li key={choice} className="list-outside list-disc ml-5">{choice}</li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                    <p className={classNames('font-medium', {
+                                        'text-emerald-600': review.answers[i].trim() === review.questions[i].correct_answer,
+                                        'text-red-600': review.answers[i].trim() !== review.questions[i].correct_answer,
+                                    })}>Your answer: {review.answers[i]}</p>
+                                    {review.answers[i].trim() === review.questions[i].correct_answer && (
+                                        <p className="text-emerald-600 font-medium">Correct answer: {review.questions[i].correct_answer}</p>
+                                    )}
+                                </div>
+                            </section>
+                        ))}
+                        <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
+                    </>
+                ) : (
+                    <Formik
+                        initialValues={quiz.questions.reduce((acc, _, i) => {
+                            acc[i] = undefined;
+                            return acc;
+                        }, {} as any)}
+                        onSubmit={handleSubmit}
+                    >
+                        {({ errors, isSubmitting }) => (
+                            <Form>
+                                {quiz.questions.map((question, i) => (
+                                    <section className="flex mb-8" key={i}>
+                                        <div>
+                                            {question.context && (
+                                                <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
+                                                    {question.context}
+                                                </Markdown>
+                                            )}
+                                            {question.multiple_choice ? (
+                                                <Field
+                                                    required
+                                                    as={Radio}
+                                                    label={`${i + 1}. ${question.question}`}
+                                                    name={i}
+                                                    choices={question.choices?.map((choice) => ({ label: choice, value: choice })) ?? []}
+                                                />
+                                            ) : (
+                                                <Field
+                                                    as={Input}
+                                                    required
+                                                    name={i}
+                                                    label={`${i + 1}. ${question.question}`}
+                                                />
+                                            )}
+                                        </div>
+                                    </section>
+                                ))}
+                                <Button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className={classNames('bg-deepblue-700 text-white', { 'opacity-50': isSubmitting })}
+                                >
+                                    Submit
+                                </Button>
+                            </Form>
+                        )}
+                    </Formik>
+                )}
             </div>
+            {nextItem && (
+                <div className="bg-gray-100 p-4 rounded-lg mt-10">
+                    <h3 className="text-lg font-semibold">Next Item</h3>
+                    {nextItem.title}
+                </div>
+            )}
         </>
     );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    try {
-        const quiz = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
-        const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
+    const quiz = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
+    const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
 
-        const quizIndex = course.data.quizzes.findIndex(q => q.id === quiz.data.id);
-        const nextQuizId = quizIndex >= 0 && quizIndex < course.data.quizzes.length - 1
-            ? course.data.quizzes[quizIndex + 1].id
-            : undefined;
-        const nextLessonId = quizIndex >= 0 && course.data.lessons.length > 0
-            ? course.data.lessons[0].id
-            : undefined;
+    // Determine next item
+    const lessons = course.data.lessons.sort((a, b) => a.number - b.number);
+    const quizzes = course.data.quizzes.sort((a, b) => a.number - b.number);
 
-        return { props: { courseName: course.data.name, courseId: course.data.id, quiz: quiz.data, nextLessonId, nextQuizId } };
-    } catch (error) {
-        return { notFound: true };
-    }
+    const currentIndex = quizzes.findIndex(q => q.id === parseInt(params!.quiz_id as string));
+    const nextItem = currentIndex < quizzes.length - 1 ? quizzes[currentIndex + 1] : null;
+
+    return {
+        props: {
+            courseName: course.data.name,
+            quiz: quiz.data,
+            nextItem,
+        },
+    };
 };
 
 export default QuizPage;
