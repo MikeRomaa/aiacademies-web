@@ -9,7 +9,7 @@ import { Input, Radio } from '~/components/Forms';
 import CodeBlock from '~/components/CodeBlock';
 import { Button } from '~/components/Button';
 import axiosInstance from '~/utils/axiosInstance';
-import { Course, Lesson, Quiz, QuizAttempt } from '~/types/api';
+import { Course, Quiz, QuizAttempt } from '~/types/api';
 import Spinner from '~/components/Spinner';
 
 interface QuizPageProps {
@@ -30,7 +30,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
             .get(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/review/`)
             .then(({ data }) => setReview(data))
             .finally(() => setLoading(false));
-    }, [setReview]);
+    }, [quiz.id]);
 
     if (loading) {
         return (
@@ -143,7 +143,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const quiz = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
+    const quiz = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
     const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
 
     return {
