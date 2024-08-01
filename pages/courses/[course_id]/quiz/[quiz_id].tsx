@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
 import Markdown from 'markdown-to-jsx';
