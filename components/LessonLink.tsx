@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { AiOutlineArrowRight, AiOutlineClockCircle, AiOutlineFlag } from 'react-icons/ai';
-import { Course, Lesson } from '~/types/api';
+import { Course, Lesson, Quiz } from '~/types/api'; // Ensure Quiz is imported
 import { useSession } from '~/utils/sessionHooks';
 
 interface LessonLinkProps {
@@ -35,7 +35,7 @@ export const LessonLink: React.FC<LessonLinkProps> = ({ course, lesson }) => (
 
 interface QuizLinkProps {
     course: Course;
-    quiz: Quiz;
+    quiz: Quiz; // Ensure Quiz type is used correctly
 }
 
 export const QuizLink: React.FC<QuizLinkProps> = ({ course, quiz }) => {
