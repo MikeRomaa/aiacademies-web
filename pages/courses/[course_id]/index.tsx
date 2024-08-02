@@ -21,7 +21,6 @@ const Course: NextPage<CoursePageProps> = ({ course }) => (
                     <Card>
                         <h2 className="font-medium">Lessons</h2>
                         <div className="relative pl-10">
-                            <span className="absolute left-4 w-1.5 h-full bg-slate-200 rounded-full" />
                             {[...course.lessons, ...course.quizzes]
                                 .sort((a, b) => a.number > b.number ? 1 : -1)
                                 .map((unit) => 'duration_minutes' in unit && 'points' in unit
