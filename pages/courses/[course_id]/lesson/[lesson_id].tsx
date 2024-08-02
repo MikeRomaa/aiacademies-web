@@ -1,49 +1,37 @@
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import axios from 'axios';
-import { PageHeader } from '~/components/PageHeader';
 import Markdown from 'markdown-to-jsx';
-import { Lesson } from '~/types/api';
-import { Course } from '~/types/api';
+import axios from 'axios';
+import CodeBlock from '~/components/CodeBlock';
+import { Course, Lesson } from '~/types/api';
+import { PageHeader } from '~/components/PageHeader';
 
 interface LessonPageProps {
+    courseName: string;
     lesson: Lesson;
-    course: Course;
-    nextLesson?: Lesson;
 }
 
-const LessonPage: NextPage<LessonPageProps> = ({ lesson, course, nextLesson }) => (
+const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson }) => (
     <>
-        <PageHeader title={course.name} subtitle={`${lesson.number}. ${lesson.title}`} />
+        <PageHeader title={courseName} subtitle={`${lesson.number ?? 0}. ${lesson.title}`} />
         <div className="container py-10">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-                <Markdown>{lesson.content}</Markdown>
-                {nextLesson && (
-                    <div className="mt-6 text-center">
-                        <a href={`/courses/${course.id}/lessons/${nextLesson.id}`} className="text-blue-500 hover:underline">
-                            Next Lesson: {nextLesson.title}
-                        </a>
-                    </div>
-                )}
-            </div>
+            <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
+                {lesson.content}
+            </Markdown>
         </div>
     </>
 );
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const lesson_id = params!.lesson_id as string;
-    const course_id = params!.course_id as string;
+    const lesson = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${params!.lesson_id}/`);
+    const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
 
-    const [lessonResponse, courseResponse] = await Promise.all([
-        axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${lesson_id}/`),
-        axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${course_id}/`)
-    ]);
-
-    const lesson = lessonResponse.data;
-    const course = courseResponse.data;
-    const nextLesson = course.lessons.find((l) => l.number === lesson.number + 1);
-
-    return { props: { lesson, course, nextLesson: nextLesson ?? null } };
+    return {
+        props: {
+            courseName: course.data.name,
+            lesson: lesson.data,
+        }
+    };
 };
 
-export default LessonPage;
+export default Lesson;
