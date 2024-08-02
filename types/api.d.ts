@@ -34,11 +34,6 @@ export interface Lesson extends CourseUnit {
 
 export interface Quiz extends CourseUnit {
     questions: QuizQuestion[];
-    id: number;
-    number: number;
-    title: string;
-    content: string; // Ensure this matches your API response
-    course_id: number;
 }
 
 export type QuizQuestion = {
