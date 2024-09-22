@@ -23,7 +23,7 @@ const Feedback: NextPage = () => {
         // Example of form submission logic
         try {
             // Replace with your API endpoint or form handler
-            await fetch('/api/feedback', {
+            await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/feedback', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ feedback, email }),
