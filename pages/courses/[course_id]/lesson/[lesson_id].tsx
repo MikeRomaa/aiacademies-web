@@ -5,7 +5,7 @@ import axios from 'axios';
 import CodeBlock from '~/components/CodeBlock';
 import { Course, Lesson } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
-import Link from 'next/link';
+import Link from 'next/link'; // Import Link for navigation
 
 interface LessonPageProps {
     courseName: string;
@@ -24,7 +24,6 @@ const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson, nextContent }) 
             <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
                 {lesson.content}
             </Markdown>
-            {/* Display Next button only if there's a next lesson or quiz */}
             {nextContent && (
                 <div className="mt-8">
                     <Link href={nextContent.type === 'lesson' ? `/lessons/${nextContent.id}` : `/quizzes/${nextContent.id}`}>
@@ -46,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         props: {
             courseName: course.data.name,
             lesson: lesson.data,
-            nextContent: lesson.data.next_content || null, // Pass next content to the component
+            nextContent: lesson.data.next_content || null, // Fetch the next content
         }
     };
 };
