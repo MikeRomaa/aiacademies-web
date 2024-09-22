@@ -5,38 +5,26 @@ import axios from 'axios';
 import CodeBlock from '~/components/CodeBlock';
 import { Course, Lesson } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
-import Link from 'next/link'; // Import Link for navigation
+import NextContentButton from '~/components/NextContentButton'; // Import the button component
 
 interface LessonPageProps {
     courseName: string;
     lesson: Lesson;
-    nextContent?: {
-        type: string; // Either 'lesson' or 'quiz'
-        id: number;
-        title: string;
-    };
 }
 
-const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson, nextContent }) => (
+const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson }) => (
     <>
         <PageHeader title={courseName} subtitle={`${lesson.number ?? 0}. ${lesson.title}`} />
         <div className="container py-10">
             <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
                 {lesson.content}
             </Markdown>
-            {nextContent && (
-                <div className="mt-8">
-                    <Link href={nextContent.type === 'lesson' ? `/lessons/${nextContent.id}` : `/quizzes/${nextContent.id}`}>
-                        <a className="btn btn-primary">
-                            Next {nextContent.type === 'lesson' ? 'Lesson' : 'Quiz'}: {nextContent.title}
-                        </a>
-                    </Link>
-                </div>
-            )}
+            <NextContentButton nextContent={lesson.next_content} /> {/* Add the button here */}
         </div>
     </>
 );
 
+// Server-side props as before
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const lesson = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${params!.lesson_id}/`);
     const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
@@ -45,7 +33,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         props: {
             courseName: course.data.name,
             lesson: lesson.data,
-            nextContent: lesson.data.next_content || null, // Fetch the next content
         }
     };
 };
