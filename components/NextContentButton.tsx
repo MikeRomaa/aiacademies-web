@@ -1,3 +1,6 @@
+import React from 'react';
+import Link from 'next/link';
+
 interface NextContentButtonProps {
     nextContent: { id: number; title: string } | null; // Can be null if there's no next content
     courseId: number; // The course ID to build the URL
@@ -6,7 +9,7 @@ interface NextContentButtonProps {
 const NextContentButton: React.FC<NextContentButtonProps> = ({ nextContent, courseId }) => {
     if (!nextContent) return null; // Don't render anything if there's no next content
 
-    const contentType = nextContent.title.includes("Quiz") ? "quiz" : "lesson"; // Determine if it's a quiz or lesson
+    const contentType = nextContent.title.toLowerCase().includes("quiz") ? "quiz" : "lesson"; // Determine if it's a quiz or lesson
 
     return (
         <Link href={`/courses/${courseId}/${contentType}/${nextContent.id}`} passHref>
@@ -16,3 +19,5 @@ const NextContentButton: React.FC<NextContentButtonProps> = ({ nextContent, cour
         </Link>
     );
 };
+
+export default NextContentButton;
