@@ -74,7 +74,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                         </section>
                     ))}
                     <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
-                    <NextContentButton nextContent={quiz.next_content} /> {/* Access next_content from quiz */}
+                    <NextContentButton nextContent={review.next_content} courseId={course.id} /> {/* Access next_content from quiz */}
                 </div>
             </>
         );
