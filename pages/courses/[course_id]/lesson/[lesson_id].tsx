@@ -5,7 +5,7 @@ import axios from 'axios';
 import CodeBlock from '~/components/CodeBlock';
 import { Course, Lesson } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
-import NextContentButton from '~/components/NextContentButton'; // Make sure this path is correct
+import NextContentButton from '~/components/NextContentButton'; // Import the NextContentButton
 
 interface LessonPageProps {
     courseName: string;
@@ -19,7 +19,7 @@ const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson }) => (
             <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
                 {lesson.content}
             </Markdown>
-            <NextContentButton nextContent={lesson.next_content} courseId={course.id} /> {/* Add the button here */}
+            <NextContentButton nextContent={lesson.next_content ?? null} courseId={course.id} /> {/* Handle potential undefined */}
         </div>
     </>
 );
