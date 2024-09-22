@@ -51,6 +51,7 @@ export type QuizQuestion = {
     question: string;
     multiple_choice: boolean;
     choices?: string[];
+    correct_answer?: string; // Add this line if it was missing
 }
 
 export type QuizAttempt = {
