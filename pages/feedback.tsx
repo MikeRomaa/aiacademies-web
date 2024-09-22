@@ -1,7 +1,9 @@
+// pages/feedback.tsx
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import { PageHeader } from '~/components/PageHeader';
 import { Button } from '~/components/Button';
+import axios from 'axios';
 
 const Feedback: NextPage = () => {
     const [feedback, setFeedback] = useState('');
@@ -20,20 +22,19 @@ const Feedback: NextPage = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        // Example of form submission logic
         try {
-            // Replace with your API endpoint or form handler
-            await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/feedback', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ feedback, email }),
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/feedback/`, {
+                feedback,
+                email,
             });
 
             setSuccessMessage('Thank you for your feedback!');
             setFeedback('');
             setEmail('');
+            setErrorMessage('');
         } catch (error) {
             setErrorMessage('There was an error submitting your feedback. Please try again.');
+            setSuccessMessage('');
         }
     };
 
