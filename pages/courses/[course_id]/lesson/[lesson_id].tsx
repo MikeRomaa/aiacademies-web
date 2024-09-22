@@ -5,7 +5,7 @@ import axios from 'axios';
 import CodeBlock from '~/components/CodeBlock';
 import { Course, Lesson } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
-import NextContentButton from '~/components/NextContentButton'; // Import the button component
+import NextContentButton from '~/components/NextContentButton'; // Make sure this path is correct
 
 interface LessonPageProps {
     courseName: string;
@@ -24,7 +24,6 @@ const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson }) => (
     </>
 );
 
-// Server-side props as before
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const lesson = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/lessons/${params!.lesson_id}/`);
     const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
