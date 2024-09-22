@@ -9,15 +9,21 @@ import { Input, Radio } from '~/components/Forms';
 import CodeBlock from '~/components/CodeBlock';
 import { Button } from '~/components/Button';
 import axiosInstance from '~/utils/axiosInstance';
-import { Course, Lesson, Quiz, QuizAttempt } from '~/types/api';
+import { Course, Quiz, QuizAttempt } from '~/types/api';
 import Spinner from '~/components/Spinner';
+import Link from 'next/link'; // Import Link for navigation
 
 interface QuizPageProps {
     courseName: string;
     quiz: Quiz;
+    nextContent?: {
+        type: string; // Either 'lesson' or 'quiz'
+        id: number;
+        title: string;
+    };
 }
 
-const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
+const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextContent }) => {
     const [review, setReview] = useState<QuizAttempt | undefined>(undefined);
     const [loading, setLoading] = useState(true);
 
@@ -30,7 +36,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
             .get(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/review/`)
             .then(({ data }) => setReview(data))
             .finally(() => setLoading(false));
-    }, [setReview]);
+    }, [quiz.id]);
 
     if (loading) {
         return (
@@ -65,7 +71,9 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                                 <p className={classNames('font-medium', {
                                     'text-emerald-600': review.answers[i].trim() === review.questions[i].correct_answer,
                                     'text-red-600': review.answers[i].trim() !== review.questions[i].correct_answer,
-                                })}>Your answer: {review.answers[i]}</p>
+                                })}>
+                                    Your answer: {review.answers[i]}
+                                </p>
                                 {review.answers[i].trim() === review.questions[i].correct_answer && (
                                     <p className="text-emerald-600 font-medium">Correct answer: {review.questions[i].correct_answer}</p>
                                 )}
@@ -73,6 +81,15 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                         </section>
                     ))}
                     <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
+                    {nextContent && (
+                        <div className="mt-8">
+                            <Link href={nextContent.type === 'lesson' ? `/lessons/${nextContent.id}` : `/quizzes/${nextContent.id}`}>
+                                <a className="btn btn-primary">
+                                    Next {nextContent.type === 'lesson' ? 'Lesson' : 'Quiz'}: {nextContent.title}
+                                </a>
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </>
         );
@@ -137,19 +154,29 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                         </Form>
                     )}
                 </Formik>
+                {nextContent && (
+                    <div className="mt-8">
+                        <Link href={nextContent.type === 'lesson' ? `/lessons/${nextContent.id}` : `/quizzes/${nextContent.id}`}>
+                            <a className="btn btn-primary">
+                                Next {nextContent.type === 'lesson' ? 'Lesson' : 'Quiz'}: {nextContent.title}
+                            </a>
+                        </Link>
+                    </div>
+                )}
             </div>
         </>
     );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const quiz = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
+    const quiz = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
     const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
 
     return {
         props: {
             courseName: course.data.name,
             quiz: quiz.data,
+            nextContent: quiz.data.next_content || null, // Fetch the next content
         }
     };
 };
