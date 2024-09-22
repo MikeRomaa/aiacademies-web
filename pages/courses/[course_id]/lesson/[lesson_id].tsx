@@ -19,7 +19,7 @@ const Lesson: NextPage<LessonPageProps> = ({ courseName, lesson }) => (
             <Markdown className="markdown-body prose max-w-none" options={{ overrides: { pre: CodeBlock } }}>
                 {lesson.content}
             </Markdown>
-            <NextContentButton nextContent={lesson.next_content} /> {/* Add the button here */}
+            <NextContentButton nextContent={lesson.next_content} courseId={course.id} /> {/* Add the button here */}
         </div>
     </>
 );
