@@ -30,13 +30,8 @@ export interface Lesson extends CourseUnit {
     duration_minutes: number;
     points: number;
     content: string;
-    next_content?: {
-        type: 'lesson' | 'quiz';
-        id: number;
-        title: string;
-    } | null; // Add this line
+    next_content?: { id: number; title: string } | null; // Add this line
 }
-
 export interface Quiz extends CourseUnit {
     questions: QuizQuestion[];
     next_content?: {
