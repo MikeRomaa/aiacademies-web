@@ -11,7 +11,7 @@ import { Button } from '~/components/Button';
 import axiosInstance from '~/utils/axiosInstance';
 import { Course, Quiz, QuizAttempt } from '~/types/api';
 import Spinner from '~/components/Spinner';
-import NextContentButton from '~/components/NextContentButton'; // Import the button component
+import NextContentButton from '~/components/NextContentButton'; // Ensure to import this component
 
 interface QuizPageProps {
     courseName: string;
@@ -64,22 +64,23 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                                     </ul>
                                 )}
                                 <p className={classNames('font-medium', {
-                                    'text-emerald-600': review.answers[i].trim() === review.questions[i].correct_answer,
-                                    'text-red-600': review.answers[i].trim() !== review.questions[i].correct_answer,
+                                    'text-emerald-600': review.answers[i].trim() === question.correct_answer,
+                                    'text-red-600': review.answers[i].trim() !== question.correct_answer,
                                 })}>Your answer: {review.answers[i]}</p>
-                                {review.answers[i].trim() === review.questions[i].correct_answer && (
-                                    <p className="text-emerald-600 font-medium">Correct answer: {review.questions[i].correct_answer}</p>
+                                {review.answers[i].trim() === question.correct_answer && (
+                                    <p className="text-emerald-600 font-medium">Correct answer: {question.correct_answer}</p>
                                 )}
                             </div>
                         </section>
                     ))}
                     <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
-                    <NextContentButton nextContent={review.next_content} /> {/* Add the button here */}
+                    <NextContentButton nextContent={quiz.next_content} /> {/* Access next_content from quiz */}
                 </div>
             </>
         );
     }
 
+    // Render quiz questions
     return (
         <>
             <PageHeader title={courseName} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
@@ -136,7 +137,6 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                             >
                                 Save
                             </Button>
-                            <NextContentButton nextContent={quiz.next_content} /> {/* Add the button here */}
                         </Form>
                     )}
                 </Formik>
@@ -145,7 +145,6 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
     );
 };
 
-// Server-side props as before
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const quiz = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
     const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
