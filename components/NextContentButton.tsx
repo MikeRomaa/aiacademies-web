@@ -1,30 +1,18 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 interface NextContentButtonProps {
-    nextContent?: {
-        type: 'lesson' | 'quiz';
-        id: number;
-        title: string;
-    } | null;
+    nextContent: { id: number; title: string } | null;
+    courseId: number;
 }
 
-const NextContentButton: React.FC<NextContentButtonProps> = ({ nextContent }) => {
-    const router = useRouter();
-
-    const handleNext = () => {
-        if (nextContent) {
-            router.push(`/${nextContent.type === 'lesson' ? 'lessons' : 'quizzes'}/${nextContent.id}`);
-        }
-    };
-
+const NextContentButton: React.FC<NextContentButtonProps> = ({ nextContent, courseId }) => {
     if (!nextContent) return null;
 
     return (
-        <button onClick={handleNext} className="btn">
-            Next: {nextContent.title}
-        </button>
+        <Link href={`/courses/${courseId}/lesson/${nextContent.id}`}>
+            <button>
+                Next: {nextContent.title}
+            </button>
+        </Link>
     );
 };
-
-export default NextContentButton;
