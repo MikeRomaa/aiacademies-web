@@ -2,19 +2,21 @@ import React from 'react';
 import Link from 'next/link';
 
 interface NextContentButtonProps {
-    nextContent: { id: number; title: string } | null; // Can be null if there's no next content
-    courseId: number; // The course ID to build the URL
+    nextContent: { type: 'lesson' | 'quiz'; id: number; title: string } | null;
+    courseId: number;
 }
 
 const NextContentButton: React.FC<NextContentButtonProps> = ({ nextContent, courseId }) => {
-    if (!nextContent) return null; // Don't render anything if there's no next content
+    if (!nextContent) {
+        return null;
+    }
 
-    const contentType = nextContent.title.toLowerCase().includes("quiz") ? "quiz" : "lesson"; // Determine if it's a quiz or lesson
+    const { type, id, title } = nextContent;
 
     return (
-        <Link href={`/courses/${courseId}/${contentType}/${nextContent.id}`} passHref>
-            <button className="bg-deepblue-700 text-white p-2 rounded mt-4">
-                Next: {nextContent.title}
+        <Link href={`/courses/${courseId}/${type}/${id}`} passHref>
+            <button className="btn-primary">
+                Next: {title}
             </button>
         </Link>
     );
