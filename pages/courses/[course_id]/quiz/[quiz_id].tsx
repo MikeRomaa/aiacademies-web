@@ -14,7 +14,7 @@ import Spinner from '~/components/Spinner';
 import NextContentButton from '~/components/NextContentButton'; // Ensure to import this component
 
 interface QuizPageProps {
-    courseName: string;
+    course: Course;
     quiz: Quiz;
 }
 
@@ -146,13 +146,13 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const quiz = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
-    const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
+    const quizResponse = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
+    const courseResponse = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
 
     return {
         props: {
-            courseName: course.data.name,
-            quiz: quiz.data,
+            courseName: courseResponse.data.name,
+            quiz: quizResponse.data,
         }
     };
 };
