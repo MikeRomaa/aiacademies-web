@@ -11,7 +11,7 @@ import { Button } from '~/components/Button';
 import axiosInstance from '~/utils/axiosInstance';
 import { Course, Quiz, QuizAttempt } from '~/types/api';
 import Spinner from '~/components/Spinner';
-import NextContentButton from '~/components/NextContentButton'; // Ensure to import this component
+import NextContentButton from '~/components/NextContentButton';
 
 interface QuizPageProps {
     course: Course;
@@ -74,7 +74,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
                         </section>
                     ))}
                     <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
-                    <NextContentButton nextContent={review.next_content} courseId={course.id} />
+                    <NextContentButton nextContent={review.next_content ?? null} courseId={course.id} />
                 </div>
             </>
         );
@@ -153,7 +153,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         props: {
             course: courseResponse.data,
             quiz: quizResponse.data,
-        },
+        }
     };
 };
 
