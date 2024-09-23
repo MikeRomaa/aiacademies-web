@@ -18,7 +18,7 @@ interface QuizPageProps {
     quiz: Quiz;
 }
 
-const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
+const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
     const [review, setReview] = useState<QuizAttempt | undefined>(undefined);
     const [loading, setLoading] = useState(true);
 
@@ -44,7 +44,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
     if (review) {
         return (
             <>
-                <PageHeader title={courseName} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
+                <PageHeader title={course} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
                 <div className="container py-10">
                     <h3 className="font-medium">Attempt Score: {review.score}%</h3>
                     {quiz.questions.map((question, i) => (
@@ -83,7 +83,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
     // Render quiz questions
     return (
         <>
-            <PageHeader title={courseName} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
+            <PageHeader title={course} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
             <div className="container py-10">
                 <Formik
                     initialValues={quiz.questions.reduce((acc, _, i) => {
