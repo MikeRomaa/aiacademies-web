@@ -16,8 +16,7 @@ import NextContentButton from '~/components/NextContentButton';
 interface QuizPageProps {
   course: Course;
   quiz: Quiz;
-  contents: Array<{ id: number; number: number; title: string; type: 'lesson' | 'quiz' }>; // Unified content type
-}
+  contents: Array<{ id: number; number: number; title: string; type: 'lesson' | 'quiz' }>;
 
 const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
   const [review, setReview] = useState<QuizAttempt | undefined>(undefined);
@@ -157,10 +156,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const quizResponse = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
   const courseResponse = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
 
-  // Fetch lessons and quizzes (content) for the course to handle sequential navigation
   const { lessons, quizzes } = courseResponse.data;
 
-  // Combine lessons and quizzes into a unified content array for navigation
   const contents = [
     ...lessons.map((lesson) => ({ id: lesson.id, number: lesson.number, title: lesson.title, type: 'lesson' })),
     ...quizzes.map((quiz) => ({ id: quiz.id, number: quiz.number, title: quiz.title, type: 'quiz' })),
