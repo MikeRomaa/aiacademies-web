@@ -31,7 +31,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
             .get(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/review/`)
             .then(({ data }) => setReview(data))
             .finally(() => setLoading(false));
-    }, [setReview]);
+    }, [quiz.id]);
 
     if (loading) {
         return (
@@ -44,7 +44,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
     if (review) {
         return (
             <>
-                <PageHeader title={course} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
+                <PageHeader title={course.name} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
                 <div className="container py-10">
                     <h3 className="font-medium">Attempt Score: {review.score}%</h3>
                     {quiz.questions.map((question, i) => (
@@ -74,7 +74,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
                         </section>
                     ))}
                     <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
-                    <NextContentButton nextContent={review.next_content} courseId={course.id} /> {/* Access next_content from quiz */}
+                    <NextContentButton nextContent={review.next_content} courseId={course.id} />
                 </div>
             </>
         );
@@ -83,7 +83,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
     // Render quiz questions
     return (
         <>
-            <PageHeader title={course} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
+            <PageHeader title={course.name} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
             <div className="container py-10">
                 <Formik
                     initialValues={quiz.questions.reduce((acc, _, i) => {
@@ -115,7 +115,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
                                                 required
                                                 as={Radio}
                                                 label={`${i + 1}. ${question.question}`}
-                                                name={i}
+                                                name={i.toString()}
                                                 choices={question.choices?.map((choice) => ({ label: choice, value: choice })) ?? []}
                                             />
                                         ) : (
@@ -123,7 +123,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
                                                 required
                                                 as={Input}
                                                 label={`${i + 1}. ${question.question}`}
-                                                name={i}
+                                                name={i.toString()}
                                             />
                                         )}
                                     </div>
@@ -151,9 +151,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     return {
         props: {
-            courseName: courseResponse.data.name,
+            course: courseResponse.data,
             quiz: quizResponse.data,
-        }
+        },
     };
 };
 
