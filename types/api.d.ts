@@ -62,4 +62,5 @@ export type QuizAttempt = {
         [key: string]: string;
     };
     score: number;
-}
+    next_content: { type: "lesson" | "quiz"; id: number; title: string } | null; // Add this line if needed
+};
