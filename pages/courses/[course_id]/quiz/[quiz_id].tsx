@@ -17,6 +17,7 @@ interface QuizPageProps {
   course: Course;
   quiz: Quiz;
   contents: Array<{ id: number; number: number; title: string; type: 'lesson' | 'quiz' }>;
+}
 
 const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
   const [review, setReview] = useState<QuizAttempt | undefined>(undefined);
@@ -24,7 +25,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
 
   useEffect(() => {
     getAttemptReview();
-  }, []);
+  }, [quiz.id]);
 
   const getAttemptReview = useCallback(() => {
     axiosInstance
@@ -96,7 +97,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
           initialValues={quiz.questions.reduce((acc, _, i) => {
             acc[i] = undefined;
             return acc;
-          }, {} as any)}
+          }, {} as Record<number, string | undefined>)}
           onSubmit={(values, { setSubmitting }) => {
             axiosInstance
               .post(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/`, values)
