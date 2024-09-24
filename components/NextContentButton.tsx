@@ -18,7 +18,7 @@ const NextContentButton: React.FC<NextContentButtonProps> = ({ currentNumber, co
   const router = useRouter();
 
   // Find the next content based on the current number
-  const nextContent = contents.find(content => content.number === currentNumber + 1);
+  const nextContent = contents.find((content) => content.number === currentNumber + 1);
 
   // If no next content, return null or display 'Course Completed'
   if (!nextContent) {
@@ -26,9 +26,10 @@ const NextContentButton: React.FC<NextContentButtonProps> = ({ currentNumber, co
   }
 
   const handleClick = () => {
-    const path = nextContent.type === 'lesson'
-      ? `/courses/${courseId}/lesson/${nextContent.id}`
-      : `/courses/${courseId}/quiz/${nextContent.id}`;
+    const path =
+      nextContent.type === 'lesson'
+        ? `/courses/${courseId}/lesson/${nextContent.id}`
+        : `/courses/${courseId}/quiz/${nextContent.id}`;
     router.push(path);
   };
 
