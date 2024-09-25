@@ -1,6 +1,6 @@
 // utils/courseUtils.ts
 
-import { Course, Lesson, Quiz, TypedCourseUnit, TypedLesson, TypedQuiz } from '~/types/api';
+import { Course, TypedCourseUnit, TypedLesson, TypedQuiz } from '~/types/api';
 
 /**
  * Merges lessons and quizzes, tags them with type, and sorts them by number.
