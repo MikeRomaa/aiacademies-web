@@ -1,3 +1,5 @@
+// pages/courses/[course_id]/index.tsx
+
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
@@ -72,6 +74,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
         return { props: { course } };
     } catch (error) {
+        console.error("Error fetching course data:", error);
         return {
             notFound: true,
         };
