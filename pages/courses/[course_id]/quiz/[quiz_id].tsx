@@ -1,3 +1,5 @@
+// pages/courses/[course_id]/quiz/[quiz_id].tsx
+
 import React, { useCallback, useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
@@ -9,7 +11,7 @@ import { Input, Radio } from '~/components/Forms';
 import CodeBlock from '~/components/CodeBlock';
 import { Button } from '~/components/Button';
 import axiosInstance from '~/utils/axiosInstance';
-import { Course, Quiz, QuizAttempt, TypedCourseUnit } from '~/types/api';
+import { Quiz, QuizAttempt, TypedCourseUnit } from '~/types/api';
 import Spinner from '~/components/Spinner';
 import Link from 'next/link';
 import { getSortedCourseUnits, getNextUnit } from '~/utils/courseUtils';
