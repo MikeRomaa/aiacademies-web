@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { AiOutlineArrowRight, AiOutlineClockCircle, AiOutlineFlag } from 'react-icons/ai';
 import { TypedLesson, Course } from '~/types/api';
+import { Button } from '~/components/Button';
 
 interface LessonLinkProps {
     course: Course;
