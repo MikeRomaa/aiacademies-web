@@ -2,9 +2,10 @@ import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
 import Markdown from 'markdown-to-jsx';
-import { LessonLink, QuizLink } from '~/components/LessonLink';
+import { LessonLink } from '~/components/LessonLink';
+import { QuizLink } from '~/components/QuizLink';
 import { difficultyIntToString } from '~/utils/strings';
-import { Course, TypedCourseUnit } from '~/types/api';
+import { Course, TypedCourseUnit, TypedLesson, TypedQuiz } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
 import { Card } from '~/components/Card';
 import { getSortedCourseUnits } from '~/utils/courseUtils';
@@ -25,9 +26,9 @@ const Course: NextPage<CoursePageProps> = ({ course }) => (
                             <span className="absolute left-4 w-1.5 h-full bg-slate-200 rounded-full" />
                             {getSortedCourseUnits(course).map(unit =>
                                 unit.type === 'lesson' ? (
-                                    <LessonLink key={unit.id} course={course} lesson={unit as any} />
+                                    <LessonLink key={unit.id} course={course} lesson={unit as TypedLesson} />
                                 ) : (
-                                    <QuizLink key={unit.id} course={course} quiz={unit as any} />
+                                    <QuizLink key={unit.id} course={course} quiz={unit as TypedQuiz} />
                                 )
                             )}
                         </div>
