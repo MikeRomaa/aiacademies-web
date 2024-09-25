@@ -30,15 +30,10 @@ export interface Lesson extends CourseUnit {
     duration_minutes: number;
     points: number;
     content: string;
-    next_content: { type: "lesson" | "quiz"; id: number; title: string } | null; // Update this line
 }
+
 export interface Quiz extends CourseUnit {
     questions: QuizQuestion[];
-    next_content?: {
-        type: 'lesson' | 'quiz';
-        id: number;
-        title: string;
-    } | null; // Optionally add this line for quizzes
 }
 
 export type QuizQuestion = {
@@ -46,7 +41,6 @@ export type QuizQuestion = {
     question: string;
     multiple_choice: boolean;
     choices?: string[];
-    correct_answer?: string; // Add this line if it was missing
 }
 
 export type QuizAttempt = {
@@ -62,5 +56,4 @@ export type QuizAttempt = {
         [key: string]: string;
     };
     score: number;
-    next_content: { type: "lesson" | "quiz"; id: number; title: string } | null; // Add this line if needed
-};
+}
