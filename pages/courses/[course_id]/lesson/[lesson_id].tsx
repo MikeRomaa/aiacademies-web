@@ -1,3 +1,5 @@
+// pages/courses/[course_id]/lesson/[lesson_id].tsx
+
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Markdown from 'markdown-to-jsx';
@@ -84,6 +86,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         };
     } catch (error) {
         // Handle errors, e.g., redirect to a 404 page
+        console.error("Error fetching lesson data:", error);
         return {
             notFound: true,
         };
