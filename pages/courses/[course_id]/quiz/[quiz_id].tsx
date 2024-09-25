@@ -1,3 +1,5 @@
+// pages/courses/[course_id]/quiz/[quiz_id].tsx
+
 import React, { useCallback, useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
@@ -9,15 +11,18 @@ import { Input, Radio } from '~/components/Forms';
 import CodeBlock from '~/components/CodeBlock';
 import { Button } from '~/components/Button';
 import axiosInstance from '~/utils/axiosInstance';
-import { Course, Lesson, Quiz, QuizAttempt } from '~/types/api';
+import { Course, Quiz, QuizAttempt, TypedCourseUnit } from '~/types/api';
 import Spinner from '~/components/Spinner';
+import Link from 'next/link';
+import { getSortedCourseUnits, getNextUnit } from '~/utils/courseUtils';
 
 interface QuizPageProps {
     courseName: string;
     quiz: Quiz;
+    nextUnit: TypedCourseUnit | null;
 }
 
-const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
+const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextUnit }) => {
     const [review, setReview] = useState<QuizAttempt | undefined>(undefined);
     const [loading, setLoading] = useState(true);
 
@@ -30,7 +35,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
             .get(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/review/`)
             .then(({ data }) => setReview(data))
             .finally(() => setLoading(false));
-    }, [setReview]);
+    }, [quiz.id]);
 
     if (loading) {
         return (
@@ -43,36 +48,80 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
     if (review) {
         return (
             <>
-                <PageHeader title={courseName} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
+                <PageHeader title={courseName} subtitle={`${quiz.number}. ${quiz.title}`} />
                 <div className="container py-10">
                     <h3 className="font-medium">Attempt Score: {review.score}%</h3>
                     {quiz.questions.map((question, i) => (
                         <section className="flex mb-8" key={i}>
                             <div>
                                 {question.context && (
-                                    <Markdown className="markdown-body max-w-none" options={{ overrides: { pre: CodeBlock } }}>
+                                    <Markdown
+                                        className="markdown-body max-w-none"
+                                        options={{ overrides: { pre: CodeBlock } }}
+                                    >
                                         {question.context}
                                     </Markdown>
                                 )}
-                                <p className="font-medium">{i + 1}. {question.question}</p>
+                                <p className="font-medium">
+                                    {i + 1}. {question.question}
+                                </p>
                                 {question.multiple_choice && (
                                     <ul>
-                                        {question.choices?.map((choice) => (
-                                            <li key={choice} className="list-outside list-disc ml-5">{choice}</li>
+                                        {question.choices?.map(choice => (
+                                            <li key={choice} className="list-outside list-disc ml-5">
+                                                {choice}
+                                            </li>
                                         ))}
                                     </ul>
                                 )}
-                                <p className={classNames('font-medium', {
-                                    'text-emerald-600': review.answers[i].trim() === review.questions[i].correct_answer,
-                                    'text-red-600': review.answers[i].trim() !== review.questions[i].correct_answer,
-                                })}>Your answer: {review.answers[i]}</p>
-                                {review.answers[i].trim() === review.questions[i].correct_answer && (
-                                    <p className="text-emerald-600 font-medium">Correct answer: {review.questions[i].correct_answer}</p>
+                                <p
+                                    className={classNames('font-medium', {
+                                        'text-emerald-600':
+                                            review.answers[i].trim() === question.correct_answer,
+                                        'text-red-600':
+                                            review.answers[i].trim() !== question.correct_answer,
+                                    })}
+                                >
+                                    Your answer: {review.answers[i]}
+                                </p>
+                                {review.answers[i].trim() === question.correct_answer && (
+                                    <p className="text-emerald-600 font-medium">
+                                        Correct answer: {question.correct_answer}
+                                    </p>
                                 )}
                             </div>
                         </section>
                     ))}
-                    <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
+                    <Button
+                        className="bg-deepblue-700 text-white"
+                        onClick={() => setReview(undefined)}
+                    >
+                        Re-attempt Quiz
+                    </Button>
+                    {nextUnit ? (
+                        <div className="mt-8 flex justify-end">
+                            <Link
+                                href={
+                                    nextUnit.type === 'lesson'
+                                        ? `/courses/${quiz.course_id}/lesson/${nextUnit.id}`
+                                        : `/courses/${quiz.course_id}/quiz/${nextUnit.id}`
+                                }
+                                passHref
+                            >
+                                <a>
+                                    <Button className="bg-deepblue-700 text-white">
+                                        Next: {nextUnit.type === 'lesson' ? 'Lesson' : 'Quiz'} {nextUnit.number}
+                                    </Button>
+                                </a>
+                            </Link>
+                        </div>
+                    ) : (
+                        <div className="mt-8 flex justify-center">
+                            <p className="text-lg font-medium text-emerald-600">
+                                Congratulations! You have completed this course.
+                            </p>
+                        </div>
+                    )}
                 </div>
             </>
         );
@@ -80,13 +129,13 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
 
     return (
         <>
-            <PageHeader title={courseName} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
+            <PageHeader title={courseName} subtitle={`${quiz.number}. ${quiz.title}`} />
             <div className="container py-10">
                 <Formik
                     initialValues={quiz.questions.reduce((acc, _, i) => {
-                        acc[i] = undefined;
+                        acc[i] = '';
                         return acc;
-                    }, {} as any)}
+                    }, {} as Record<string, string>)}
                     onSubmit={(values, { setSubmitting }) => {
                         axiosInstance
                             .post(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/`, values)
@@ -103,7 +152,10 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                                 <section className="flex mb-8" key={i}>
                                     <div>
                                         {question.context && (
-                                            <Markdown className="markdown-body max-w-none" options={{ overrides: { pre: CodeBlock } }}>
+                                            <Markdown
+                                                className="markdown-body max-w-none"
+                                                options={{ overrides: { pre: CodeBlock } }}
+                                            >
                                                 {question.context}
                                             </Markdown>
                                         )}
@@ -112,15 +164,20 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                                                 required
                                                 as={Radio}
                                                 label={`${i + 1}. ${question.question}`}
-                                                name={i}
-                                                choices={question.choices?.map((choice) => ({ label: choice, value: choice })) ?? []}
+                                                name={i.toString()}
+                                                choices={
+                                                    question.choices?.map(choice => ({
+                                                        label: choice,
+                                                        value: choice,
+                                                    })) || []
+                                                }
                                             />
                                         ) : (
                                             <Field
                                                 required
                                                 as={Input}
                                                 label={`${i + 1}. ${question.question}`}
-                                                name={i}
+                                                name={i.toString()}
                                             />
                                         )}
                                     </div>
@@ -137,21 +194,70 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
                         </Form>
                     )}
                 </Formik>
+                {nextUnit ? (
+                    <div className="mt-8 flex justify-end">
+                        <Link
+                            href={
+                                nextUnit.type === 'lesson'
+                                    ? `/courses/${quiz.course_id}/lesson/${nextUnit.id}`
+                                    : `/courses/${quiz.course_id}/quiz/${nextUnit.id}`
+                            }
+                            passHref
+                        >
+                            <a>
+                                <Button className="bg-deepblue-700 text-white">
+                                    Next: {nextUnit.type === 'lesson' ? 'Lesson' : 'Quiz'} {nextUnit.number}
+                                </Button>
+                            </a>
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="mt-8 flex justify-center">
+                        <p className="text-lg font-medium text-emerald-600">
+                            Congratulations! You have completed this course.
+                        </p>
+                    </div>
+                )}
             </div>
         </>
     );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const quiz = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
-    const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
+    const { course_id, quiz_id } = params!;
 
-    return {
-        props: {
-            courseName: course.data.name,
-            quiz: quiz.data,
-        }
-    };
+    try {
+        // Fetch the specific quiz
+        const quizResponse = await axios.get<Quiz>(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz_id}/`
+        );
+        const quiz = quizResponse.data;
+
+        // Fetch the course with all units
+        const courseResponse = await axios.get<Course>(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${course_id}/`
+        );
+        const course = courseResponse.data;
+
+        // Get sorted units
+        const sortedUnits = getSortedCourseUnits(course);
+
+        // Find the next unit
+        const nextUnit = getNextUnit(sortedUnits, quiz.id, 'quiz');
+
+        return {
+            props: {
+                courseName: course.name,
+                quiz,
+                nextUnit,
+            },
+        };
+    } catch (error) {
+        // Handle errors, e.g., redirect to a 404 page
+        return {
+            notFound: true,
+        };
+    }
 };
 
 export default QuizPage;
