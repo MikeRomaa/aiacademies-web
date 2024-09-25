@@ -1,9 +1,7 @@
-// components/QuizLink.tsx
-
 import React from 'react';
 import Link from 'next/link';
 import { AiOutlineArrowRight } from 'react-icons/ai';
-import { TypedCourseUnit, Course, TypedQuiz } from '~/types/api';
+import { TypedQuiz, Course } from '~/types/api';
 import { useSession } from '~/utils/sessionHooks';
 import { Button } from '~/components/Button';
 
