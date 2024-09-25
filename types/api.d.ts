@@ -1,10 +1,12 @@
+// types/api.d.ts
+
 export type BaseCourse = {
     id: number;
     num_lessons: number;
     name: string;
     banner: string;
     featured: boolean;
-}
+};
 
 export type Course = {
     id: number;
@@ -17,14 +19,14 @@ export type Course = {
     description: string;
     difficulty: number;
     enrolled: number;
-}
+};
 
 export type CourseUnit = {
     id: number;
     course_id: number;
     number: number;
     title: string;
-}
+};
 
 export interface Lesson extends CourseUnit {
     duration_minutes: number;
@@ -41,7 +43,7 @@ export type QuizQuestion = {
     question: string;
     multiple_choice: boolean;
     choices?: string[];
-}
+};
 
 export type QuizAttempt = {
     id: number;
@@ -56,4 +58,9 @@ export type QuizAttempt = {
         [key: string]: string;
     };
     score: number;
-}
+};
+
+// Typed Units for Frontend Navigation
+export type TypedLesson = Lesson & { type: 'lesson' };
+export type TypedQuiz = Quiz & { type: 'quiz' };
+export type TypedCourseUnit = TypedLesson | TypedQuiz;
