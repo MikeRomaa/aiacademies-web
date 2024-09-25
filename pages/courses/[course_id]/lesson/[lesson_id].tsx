@@ -1,11 +1,9 @@
-// pages/courses/[course_id]/lesson/[lesson_id].tsx
-
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Markdown from 'markdown-to-jsx';
 import axios from 'axios';
 import CodeBlock from '~/components/CodeBlock';
-import { Course, Lesson, TypedCourseUnit } from '~/types/api';
+import { Lesson, TypedCourseUnit, Course } from '~/types/api';
 import { PageHeader } from '~/components/PageHeader';
 import { Button } from '~/components/Button';
 import { getSortedCourseUnits, getNextUnit } from '~/utils/courseUtils';
