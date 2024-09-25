@@ -9,30 +9,28 @@ import { Input, Radio } from '~/components/Forms';
 import CodeBlock from '~/components/CodeBlock';
 import { Button } from '~/components/Button';
 import axiosInstance from '~/utils/axiosInstance';
-import { Course, Quiz, QuizAttempt } from '~/types/api';
+import { Course, Lesson, Quiz, QuizAttempt } from '~/types/api';
 import Spinner from '~/components/Spinner';
-import NextContentButton from '~/components/NextContentButton';
 
 interface QuizPageProps {
-    course: Course;
+    courseName: string;
     quiz: Quiz;
-    contents: Array<{ id: number; number: number; title: string; type: 'lesson' | 'quiz' }>;
 }
 
-const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
+const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz }) => {
     const [review, setReview] = useState<QuizAttempt | undefined>(undefined);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getAttemptReview();
-    }, [quiz.id]);
+    }, []);
 
     const getAttemptReview = useCallback(() => {
         axiosInstance
             .get(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/review/`)
             .then(({ data }) => setReview(data))
             .finally(() => setLoading(false));
-    }, [quiz.id]);
+    }, [setReview]);
 
     if (loading) {
         return (
@@ -45,7 +43,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
     if (review) {
         return (
             <>
-                <PageHeader title={course.name} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
+                <PageHeader title={courseName} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
                 <div className="container py-10">
                     <h3 className="font-medium">Attempt Score: {review.score}%</h3>
                     {quiz.questions.map((question, i) => (
@@ -64,24 +62,17 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
                                         ))}
                                     </ul>
                                 )}
-                                <p
-                                    className={classNames('font-medium', {
-                                        'text-emerald-600': review.answers[i].trim() === question.correct_answer,
-                                        'text-red-600': review.answers[i].trim() !== question.correct_answer,
-                                    })}
-                                >
-                                    Your answer: {review.answers[i]}
-                                </p>
-                                {review.answers[i].trim() !== question.correct_answer && (
-                                    <p className="text-emerald-600 font-medium">Correct answer: {question.correct_answer}</p>
+                                <p className={classNames('font-medium', {
+                                    'text-emerald-600': review.answers[i].trim() === review.questions[i].correct_answer,
+                                    'text-red-600': review.answers[i].trim() !== review.questions[i].correct_answer,
+                                })}>Your answer: {review.answers[i]}</p>
+                                {review.answers[i].trim() === review.questions[i].correct_answer && (
+                                    <p className="text-emerald-600 font-medium">Correct answer: {review.questions[i].correct_answer}</p>
                                 )}
                             </div>
                         </section>
                     ))}
-                    <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>
-                        Re-attempt Quiz
-                    </Button>
-                    <NextContentButton currentNumber={quiz.number} contents={contents} courseId={course.id} />
+                    <Button className="bg-deepblue-700 text-white" onClick={() => setReview(undefined)}>Re-attempt Quiz</Button>
                 </div>
             </>
         );
@@ -89,13 +80,13 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
 
     return (
         <>
-            <PageHeader title={course.name} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
+            <PageHeader title={courseName} subtitle={`${quiz.number ?? 0}. ${quiz.title}`} />
             <div className="container py-10">
                 <Formik
                     initialValues={quiz.questions.reduce((acc, _, i) => {
                         acc[i] = undefined;
                         return acc;
-                    }, {} as Record<number, string | undefined>)}
+                    }, {} as any)}
                     onSubmit={(values, { setSubmitting }) => {
                         axiosInstance
                             .post(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/`, values)
@@ -121,7 +112,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
                                                 required
                                                 as={Radio}
                                                 label={`${i + 1}. ${question.question}`}
-                                                name={i.toString()}
+                                                name={i}
                                                 choices={question.choices?.map((choice) => ({ label: choice, value: choice })) ?? []}
                                             />
                                         ) : (
@@ -129,7 +120,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
                                                 required
                                                 as={Input}
                                                 label={`${i + 1}. ${question.question}`}
-                                                name={i.toString()}
+                                                name={i}
                                             />
                                         )}
                                     </div>
@@ -152,22 +143,14 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz, contents }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const quizResponse = await axios.get<Quiz>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
-    const courseResponse = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
-
-    const { lessons, quizzes } = courseResponse.data;
-
-    const contents = [
-        ...lessons.map((lesson) => ({ id: lesson.id, number: lesson.number, title: lesson.title, type: 'lesson' })),
-        ...quizzes.map((quiz) => ({ id: quiz.id, number: quiz.number, title: quiz.title, type: 'quiz' })),
-    ].sort((a, b) => a.number - b.number);
+    const quiz = await axios.get<Lesson>(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${params!.quiz_id}/`);
+    const course = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/${params!.course_id}/`);
 
     return {
         props: {
-            course: courseResponse.data,
-            quiz: quizResponse.data,
-            contents,
-        },
+            courseName: course.data.name,
+            quiz: quiz.data,
+        }
     };
 };
 
