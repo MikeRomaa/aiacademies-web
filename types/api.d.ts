@@ -47,7 +47,7 @@ export type QuizQuestion = {
 
 export type QuizAttempt = {
     id: number;
-    course_id: number;
+    // Removed course_id as it's not provided by the API
     title: string;
     questions: {
         context?: string;
