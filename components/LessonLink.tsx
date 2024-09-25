@@ -3,9 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { AiOutlineArrowRight, AiOutlineClockCircle, AiOutlineFlag } from 'react-icons/ai';
-import { TypedCourseUnit, Course, TypedLesson } from '~/types/api';
-import { useSession } from '~/utils/sessionHooks';
-import { Button } from '~/components/Button';
+import { TypedLesson, Course } from '~/types/api';
 
 interface LessonLinkProps {
     course: Course;
