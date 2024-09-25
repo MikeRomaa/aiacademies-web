@@ -1,3 +1,4 @@
+
 import React, { useCallback, useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
@@ -32,6 +33,10 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextUnit }) => {
         axiosInstance
             .get(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/review/`)
             .then(({ data }) => setReview(data))
+            .catch(error => {
+                console.error("Error fetching quiz review:", error);
+                setReview(undefined);
+            })
             .finally(() => setLoading(false));
     }, [quiz.id]);
 
@@ -140,6 +145,9 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextUnit }) => {
                             .then(() => {
                                 setLoading(true);
                                 getAttemptReview();
+                            })
+                            .catch(error => {
+                                console.error("Error submitting quiz:", error);
                             })
                             .finally(() => setSubmitting(false));
                     }}
@@ -252,6 +260,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         };
     } catch (error) {
         // Handle errors, e.g., redirect to a 404 page
+        console.error("Error fetching quiz data:", error);
         return {
             notFound: true,
         };
