@@ -1,5 +1,3 @@
-// pages/courses/[course_id]/quiz/[quiz_id].tsx
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
