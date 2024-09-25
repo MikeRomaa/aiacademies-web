@@ -1,5 +1,3 @@
-// pages/courses/[course_id]/index.tsx
-
 import React from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import axios from 'axios';
