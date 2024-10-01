@@ -16,7 +16,7 @@ const Blog: NextPage = () => (
     <>
         <PageHeader title="Blog" />
         <div className="container py-10">
-            <h1 className="text-3xl font-bold mb-6">This Week&apos;s AI News</h1>
+            <h1 className="text-3xl font-bold mb-6">AI News</h1>
             <Link href="https://news.mit.edu/2024/study-structured-randomization-ai-can-improve-fairness-0724" passHref>
                 <a className="no-underline">
                     <Card className="!p-0 duration-500 hover:-translate-y-2">
