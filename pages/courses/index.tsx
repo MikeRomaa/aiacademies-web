@@ -58,7 +58,7 @@ const CourseList: NextPage<CourseListPageProps> = ({ courses }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-    const courses = await axios.get<BaseCourse>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/`);
+    const courses = await axios.get<Course>(`${process.env.NEXT_PUBLIC_API_URL}/api/courses/`);
 
     return { props: { courses: courses.data } };
 };
