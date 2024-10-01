@@ -42,9 +42,10 @@ const Blog: NextPage = () => (
             <div className="mt-12">
                 <h2 className="text-2xl font-bold mb-4">Updates & Info</h2>
                 <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                    <li>Implementing two new courses including Natural Language Processing and Ethics in AI</li>
+                    <li>Implemented two new courses including Natural Language Processing and Ethics in AI</li>
                     <li>Revamped the mobile interface for easier use</li>
                     <li>Introduced a blog page with weekly articles and an info section</li>
+                    <li>Added a page for users to enter their feedback</li>
                 </ul>
             </div>
         </div>
