@@ -1,53 +1,51 @@
 // types/api.d.ts
 
-export type BaseCourse = {
+// Lesson Interface
+export interface Lesson {
     id: number;
-    num_lessons: number;
-    name: string;
-    banner: string;
-    featured: boolean;
-};
+    course_id: number;
+    number: number;
+    title: string;
+    duration_minutes: number;
+    points: number;
+    content: string;
+}
 
-export type Course = {
+// QuizQuestion Interface
+export interface QuizQuestion {
+    context?: string;
+    question: string;
+    multiple_choice: boolean;
+    choices?: string[];
+    correct_answer: string;
+}
+
+// Quiz Interface
+export interface Quiz {
     id: number;
-    lessons: Lesson[];
-    quizzes: Quiz[];
-    total_duration: number;
+    course_id: number;
+    number: number;
+    title: string;
+    questions: QuizQuestion[];
+}
+
+// Course Interface
+export interface Course {
+    id: number;
     name: string;
     banner: string;
     featured: boolean;
     description: string;
     difficulty: number;
     enrolled: number;
-};
-
-export type CourseUnit = {
-    id: number;
-    course_id: number;
-    number: number;
-    title: string;
-};
-
-export interface Lesson extends CourseUnit {
-    duration_minutes: number;
-    points: number;
-    content: string;
+    lessons: Lesson[];
+    quizzes: Quiz[];
+    total_duration: number;
 }
 
-export interface Quiz extends CourseUnit {
-    questions: QuizQuestion[];
-}
-
-export type QuizQuestion = {
-    context?: string;
-    question: string;
-    multiple_choice: boolean;
-    choices?: string[];
-};
-
-export type QuizAttempt = {
+// QuizAttempt Interface
+export interface QuizAttempt {
     id: number;
-    // Removed course_id as it's not provided by the API
     title: string;
     questions: {
         context?: string;
@@ -58,9 +56,9 @@ export type QuizAttempt = {
         [key: string]: string;
     };
     score: number;
-};
+}
 
-// Typed Units for Frontend Navigation
+// Discriminated Union Types for Frontend Navigation
 export type TypedLesson = Lesson & { type: 'lesson' };
 export type TypedQuiz = Quiz & { type: 'quiz' };
 export type TypedCourseUnit = TypedLesson | TypedQuiz;
