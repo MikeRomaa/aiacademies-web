@@ -2,10 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import { RiFileCopy2Line } from 'react-icons/ri';
 import { Card } from '~/components/Card';
-import { BaseCourse } from '~/types/api';
+import { Course } from '~/types/api';
 
 interface CourseCardProps {
-    course: BaseCourse;
+    course: Course;
 }
 
 export const CourseCard: React.FC<CourseCardProps> = ({ course }) => (
