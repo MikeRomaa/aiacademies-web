@@ -4,12 +4,12 @@ import { NextPage } from 'next';
 import { PageHeader } from '~/components/PageHeader';
 import { RiFileCopy2Line } from 'react-icons/ri';
 import { Card } from '~/components/Card';
-import { BaseCourse } from '~/types/api';
+import { Course } from '~/types/api';
 import Image from 'next/image';
 import Article from '~/public/img/Article.jpg';
 
 interface CourseCardProps {
-    course: BaseCourse;
+    course: Course;
 }
 
 const Blog: NextPage = () => (
