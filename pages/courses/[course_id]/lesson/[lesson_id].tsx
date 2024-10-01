@@ -31,7 +31,7 @@ const LessonPage: NextPage<LessonPageProps> = ({ course, lesson }) => {
                 {nextUnit && (
                     <div className="mt-8 flex justify-end">
                         <Button className="bg-deepblue-700 text-white" onClick={handleNext}>
-                            Next: {nextUnit.type === 'lesson' ? 'Lesson' : 'Quiz'} {nextUnit.number}
+                            Next: {nextUnit.title}
                         </Button>
                     </div>
                 )}
