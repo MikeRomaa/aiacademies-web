@@ -31,7 +31,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
             );
             setReview(response.data);
         } catch (error) {
-            console.error("Error fetching quiz review:", error);
+            console.error('Error fetching quiz review:', error);
             setReview(undefined);
         } finally {
             setLoading(false);
@@ -138,7 +138,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
                             setLoading(true);
                             fetchReview();
                         } catch (error) {
-                            console.error("Error submitting quiz:", error);
+                            console.error('Error submitting quiz:', error);
                         } finally {
                             setSubmitting(false);
                         }
@@ -231,7 +231,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             },
         };
     } catch (error) {
-        console.error("Error fetching quiz data:", error);
+        console.error('Error fetching quiz data:', error);
         return {
             notFound: true,
         };
