@@ -10,40 +10,41 @@ import { PageHeader } from '~/components/PageHeader';
 import { Input, Radio } from '~/components/Forms';
 import CodeBlock from '~/components/CodeBlock';
 import { Button } from '~/components/Button';
-import axiosInstance from '~/utils/axiosInstance';
-import { Quiz, QuizAttempt, TypedCourseUnit } from '~/types/api';
+import { Quiz, QuizAttempt, Course } from '~/types/api';
 import Spinner from '~/components/Spinner';
-import Link from 'next/link';
-import { getSortedCourseUnits, getNextUnit } from '~/utils/courseUtils';
+import { useNextNavigation } from '~/utils/navigationUtils';
 
 interface QuizPageProps {
-    courseName: string;
+    course: Course;
     quiz: Quiz;
-    nextUnit: TypedCourseUnit | null;
 }
 
-const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextUnit }) => {
+const QuizPage: NextPage<QuizPageProps> = ({ course, quiz }) => {
+    const { nextUnit, handleNext } = useNextNavigation(course, quiz.id, 'quiz');
     const [review, setReview] = useState<QuizAttempt | undefined>(undefined);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        getAttemptReview();
-    }, []);
-
-    const getAttemptReview = useCallback(() => {
-        axiosInstance
-            .get(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/review/`)
-            .then(({ data }) => setReview(data))
-            .catch(error => {
-                console.error("Error fetching quiz review:", error);
-                setReview(undefined);
-            })
-            .finally(() => setLoading(false));
+    const fetchReview = useCallback(async () => {
+        try {
+            const response = await axios.get<QuizAttempt>(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/review/`
+            );
+            setReview(response.data);
+        } catch (error) {
+            console.error("Error fetching quiz review:", error);
+            setReview(undefined);
+        } finally {
+            setLoading(false);
+        }
     }, [quiz.id]);
+
+    useEffect(() => {
+        fetchReview();
+    }, [fetchReview]);
 
     if (loading) {
         return (
-            <div className="h-96 bg-white flex place-items-center">
+            <div className="h-96 bg-white flex items-center justify-center">
                 <Spinner />
             </div>
         );
@@ -52,7 +53,7 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextUnit }) => {
     if (review) {
         return (
             <>
-                <PageHeader title={courseName} subtitle={`${quiz.number}. ${quiz.title}`} />
+                <PageHeader title={course.name} subtitle={`${quiz.number}. ${quiz.title}`} />
                 <div className="container py-10">
                     <h3 className="font-medium">Attempt Score: {review.score}%</h3>
                     {quiz.questions.map((question, i) => (
@@ -80,15 +81,13 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextUnit }) => {
                                 )}
                                 <p
                                     className={classNames('font-medium', {
-                                        'text-emerald-600':
-                                            review.answers[i].trim() === question.correct_answer,
-                                        'text-red-600':
-                                            review.answers[i].trim() !== question.correct_answer,
+                                        'text-emerald-600': review.answers[i]?.trim() === question.correct_answer,
+                                        'text-red-600': review.answers[i]?.trim() !== question.correct_answer,
                                     })}
                                 >
                                     Your answer: {review.answers[i]}
                                 </p>
-                                {review.answers[i].trim() === question.correct_answer && (
+                                {review.answers[i]?.trim() === question.correct_answer && (
                                     <p className="text-emerald-600 font-medium">
                                         Correct answer: {question.correct_answer}
                                     </p>
@@ -102,24 +101,14 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextUnit }) => {
                     >
                         Re-attempt Quiz
                     </Button>
-                    {nextUnit ? (
+                    {nextUnit && (
                         <div className="mt-8 flex justify-end">
-                            <Link
-                                href={
-                                    nextUnit.type === 'lesson'
-                                        ? `/courses/${quiz.course_id}/lesson/${nextUnit.id}`
-                                        : `/courses/${quiz.course_id}/quiz/${nextUnit.id}`
-                                }
-                                passHref
-                            >
-                                <a>
-                                    <Button className="bg-deepblue-700 text-white">
-                                        Next: {nextUnit.type === 'lesson' ? 'Lesson' : 'Quiz'} {nextUnit.number}
-                                    </Button>
-                                </a>
-                            </Link>
+                            <Button className="bg-deepblue-700 text-white" onClick={handleNext}>
+                                Next: {nextUnit.type === 'lesson' ? 'Lesson' : 'Quiz'} {nextUnit.number}
+                            </Button>
                         </div>
-                    ) : (
+                    )}
+                    {!nextUnit && (
                         <div className="mt-8 flex justify-center">
                             <p className="text-lg font-medium text-emerald-600">
                                 Congratulations! You have completed this course.
@@ -133,24 +122,26 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextUnit }) => {
 
     return (
         <>
-            <PageHeader title={courseName} subtitle={`${quiz.number}. ${quiz.title}`} />
+            <PageHeader title={course.name} subtitle={`${quiz.number}. ${quiz.title}`} />
             <div className="container py-10">
                 <Formik
                     initialValues={quiz.questions.reduce((acc, _, i) => {
                         acc[i] = '';
                         return acc;
                     }, {} as Record<string, string>)}
-                    onSubmit={(values, { setSubmitting }) => {
-                        axiosInstance
-                            .post(`${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/`, values)
-                            .then(() => {
-                                setLoading(true);
-                                getAttemptReview();
-                            })
-                            .catch(error => {
-                                console.error("Error submitting quiz:", error);
-                            })
-                            .finally(() => setSubmitting(false));
+                    onSubmit={async (values, { setSubmitting }) => {
+                        try {
+                            await axios.post(
+                                `${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz.id}/`,
+                                values
+                            );
+                            setLoading(true);
+                            fetchReview();
+                        } catch (error) {
+                            console.error("Error submitting quiz:", error);
+                        } finally {
+                            setSubmitting(false);
+                        }
                     }}
                 >
                     {({ errors, isSubmitting }) => (
@@ -192,33 +183,22 @@ const QuizPage: NextPage<QuizPageProps> = ({ courseName, quiz, nextUnit }) => {
                             ))}
                             <Button
                                 className="bg-deepblue-700 text-white"
-                                loading={isSubmitting}
                                 disabled={!!Object.keys(errors).length}
                                 type="submit"
                             >
-                                Save
+                                Submit Quiz
                             </Button>
                         </Form>
                     )}
                 </Formik>
-                {nextUnit ? (
+                {nextUnit && (
                     <div className="mt-8 flex justify-end">
-                        <Link
-                            href={
-                                nextUnit.type === 'lesson'
-                                    ? `/courses/${quiz.course_id}/lesson/${nextUnit.id}`
-                                    : `/courses/${quiz.course_id}/quiz/${nextUnit.id}`
-                            }
-                            passHref
-                        >
-                            <a>
-                                <Button className="bg-deepblue-700 text-white">
-                                    Next: {nextUnit.type === 'lesson' ? 'Lesson' : 'Quiz'} {nextUnit.number}
-                                </Button>
-                            </a>
-                        </Link>
+                        <Button className="bg-deepblue-700 text-white" onClick={handleNext}>
+                            Next: {nextUnit.type === 'lesson' ? 'Lesson' : 'Quiz'} {nextUnit.number}
+                        </Button>
                     </div>
-                ) : (
+                )}
+                {!nextUnit && (
                     <div className="mt-8 flex justify-center">
                         <p className="text-lg font-medium text-emerald-600">
                             Congratulations! You have completed this course.
@@ -234,33 +214,23 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const { course_id, quiz_id } = params!;
 
     try {
-        // Fetch the specific quiz
         const quizResponse = await axios.get<Quiz>(
             `${process.env.NEXT_PUBLIC_API_URL}/api/quizzes/${quiz_id}/`
         );
         const quiz = quizResponse.data;
 
-        // Fetch the course with all units
         const courseResponse = await axios.get<Course>(
             `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${course_id}/`
         );
         const course = courseResponse.data;
 
-        // Get sorted units
-        const sortedUnits = getSortedCourseUnits(course);
-
-        // Find the next unit
-        const nextUnit = getNextUnit(sortedUnits, quiz.id, 'quiz');
-
         return {
             props: {
-                courseName: course.name,
+                course,
                 quiz,
-                nextUnit,
             },
         };
     } catch (error) {
-        // Handle errors, e.g., redirect to a 404 page
         console.error("Error fetching quiz data:", error);
         return {
             notFound: true,
