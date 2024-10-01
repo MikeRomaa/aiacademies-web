@@ -41,6 +41,7 @@ export interface Course {
     lessons: Lesson[];
     quizzes: Quiz[];
     total_duration: number;
+    num_lessons: number; 
 }
 
 // QuizAttempt Interface
