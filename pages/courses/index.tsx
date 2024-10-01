@@ -5,10 +5,10 @@ import axios from 'axios';
 import { Card } from '~/components/Card';
 import { CourseCard } from '~/components/CourseCard';
 import { PageHeader } from '~/components/PageHeader';
-import { BaseCourse } from '~/types/api';
+import { Course } from '~/types/api';
 
 interface CourseListPageProps {
-    courses: BaseCourse[];
+    courses: Course[];
 }
 
 const CourseList: NextPage<CourseListPageProps> = ({ courses }) => {
