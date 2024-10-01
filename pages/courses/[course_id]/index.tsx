@@ -80,7 +80,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             },
         };
     } catch (error) {
-        console.error("Error fetching course data:", error);
+        console.error('Error fetching course data:', error);
         return {
             notFound: true,
         };
