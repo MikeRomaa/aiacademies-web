@@ -57,6 +57,9 @@ const Navigation: React.FC = () => {
                     <Link href="/blog" passHref>
                         <a className="py-2 hover:text-deepblue-500">Blog</a>
                     </Link>
+                    <Link href="/feedback" passHref>
+                        <a className="py-2 hover:text-deepblue-500">Feedback</a>
+                    </Link>
                 </div>
                 {/* Sign In/Sign Out and Session Info */}
                 <div className="hidden lg:flex items-center gap-4 ml-auto">
